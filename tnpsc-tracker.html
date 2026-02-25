@@ -1,0 +1,1999 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ARJUUU ❤️ — TNPSC Group 1 Tracker</title>
+<link href="https://fonts.googleapis.com/css2?family=Kalam:wght@400;700&family=Noto+Sans+Tamil:wght@400;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box;}
+:root{
+  --bg:#0a0f0d;
+  --surface:#111812;
+  --surface2:#172019;
+  --border:#1e2e22;
+  --text:#e8f0ea;
+  --muted:#6b8070;
+  --gold:#c9a84c;
+  --gold-l:#e5c76b;
+  --saffron:#e8732a;
+  --green:#2e9e5b;
+  --green-l:#3dbd70;
+  --blue:#3b82c4;
+  --blue-l:#60a5e8;
+  --red:#dc4a3d;
+  --purple:#8b5cf6;
+  --teal:#0d9488;
+  --done:#2e9e5b;
+  --warn:#d29922;
+  --acc:#e8732a;
+  --prelims:#c9a84c;
+  --mains:#3b82c4;
+  --interview:#8b5cf6;
+  --ca:#0d9488;
+}
+body{font-family:'Plus Jakarta Sans',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;overflow-x:hidden;}
+
+/* BG PATTERN */
+body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellipse 80% 50% at 20% 20%,rgba(46,158,91,.04) 0%,transparent 60%),radial-gradient(ellipse 60% 40% at 80% 80%,rgba(201,168,76,.04) 0%,transparent 60%);pointer-events:none;z-index:0;}
+
+.layout{display:flex;min-height:100vh;position:relative;z-index:1;}
+
+/* ── SIDEBAR ── */
+.sidebar{width:270px;flex-shrink:0;background:var(--surface);border-right:1px solid var(--border);display:flex;flex-direction:column;padding:0;position:sticky;top:0;height:100vh;overflow-y:auto;}
+.sidebar::-webkit-scrollbar{width:4px;}
+.sidebar::-webkit-scrollbar-thumb{background:var(--border);border-radius:4px;}
+
+.sb-logo{padding:20px 20px 16px;border-bottom:1px solid var(--border);}
+.sb-logo .flag{font-size:20px;margin-bottom:6px;}
+.sb-logo .name{font-size:14px;font-weight:800;color:var(--text);letter-spacing:-.3px;}
+.sb-logo .sub{font-family:'JetBrains Mono',monospace;font-size:9px;color:var(--muted);margin-top:3px;letter-spacing:.5px;}
+.sb-logo .exam-badge{margin-top:8px;display:inline-flex;align-items:center;gap:6px;background:rgba(201,168,76,.12);border:1px solid rgba(201,168,76,.3);border-radius:20px;padding:4px 10px;font-size:10px;font-weight:700;color:var(--gold);}
+
+.nav-group{padding:10px 12px 4px;}
+.nav-label{font-size:9px;letter-spacing:3px;text-transform:uppercase;color:var(--muted);padding:0 8px;margin-bottom:4px;}
+.nav-item{display:flex;align-items:center;gap:8px;padding:8px 10px;border-radius:7px;cursor:pointer;font-size:12px;color:var(--muted);transition:all .15s;margin-bottom:2px;user-select:none;border:1px solid transparent;}
+.nav-item:hover,.nav-item.active{background:var(--surface2);color:var(--text);border-color:var(--border);}
+.nav-dot{width:7px;height:7px;border-radius:50%;flex-shrink:0;}
+.nav-pct{margin-left:auto;font-family:'JetBrains Mono',monospace;font-size:9px;color:var(--green-l);}
+
+.sb-streak{margin-top:auto;padding:14px 18px;border-top:1px solid var(--border);}
+.sb-streak .sl{font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--muted);margin-bottom:6px;}
+.streak-dots{display:flex;gap:3px;flex-wrap:wrap;}
+.sdot{width:9px;height:9px;border-radius:2px;background:var(--border);}
+.sdot.on{background:var(--green);}
+.sdot.today{background:var(--gold);outline:2px solid var(--gold);outline-offset:1px;}
+
+/* ── MAIN ── */
+.main{flex:1;padding:32px 28px;min-width:0;}
+
+.topbar{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:24px;flex-wrap:wrap;gap:12px;}
+.topbar h1{font-size:20px;font-weight:800;letter-spacing:-.5px;}
+.topbar .meta{font-family:'JetBrains Mono',monospace;font-size:9px;color:var(--muted);margin-top:4px;}
+
+/* PANELS */
+.panel{display:none;}
+.panel.active{display:block;animation:fadeUp .3s ease;}
+@keyframes fadeUp{from{opacity:0;transform:translateY(8px);}to{opacity:1;transform:translateY(0);}}
+
+/* STATS */
+.stats-row{display:grid;grid-template-columns:repeat(5,1fr);gap:10px;margin-bottom:18px;}
+.stat{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:14px;}
+.stat .sl{font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--muted);margin-bottom:6px;}
+.stat .sv{font-size:22px;font-weight:800;line-height:1;letter-spacing:-1px;}
+.stat .ss{font-size:10px;color:var(--muted);margin-top:3px;}
+
+/* PROGRESS CARD */
+.progress-card{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:18px;margin-bottom:16px;}
+.pc-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;}
+.pc-title{font-size:12px;font-weight:700;}
+.pc-pct{font-family:'JetBrains Mono',monospace;font-size:16px;font-weight:700;color:var(--green-l);}
+.prog-track{background:var(--bg);border-radius:99px;height:7px;overflow:hidden;margin-bottom:12px;}
+.prog-fill{height:100%;border-radius:99px;transition:width .6s ease;background:linear-gradient(90deg,var(--green),var(--gold),var(--saffron));}
+.stage-row{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;}
+.stage-mini{background:var(--bg);border:1px solid var(--border);border-radius:8px;padding:10px;}
+.sm-top{display:flex;justify-content:space-between;align-items:center;margin-bottom:5px;}
+.sm-name{font-size:10px;font-weight:700;}
+.sm-pct{font-family:'JetBrains Mono',monospace;font-size:10px;}
+.sm-track{background:var(--border);border-radius:99px;height:3px;overflow:hidden;}
+.sm-bar{height:100%;border-radius:99px;transition:width .5s;}
+
+/* TIP BOX */
+.tip-box{background:var(--surface);border:1px solid var(--border);border-left:3px solid var(--gold);border-radius:8px;padding:12px 14px;margin-bottom:16px;font-size:12px;color:var(--muted);line-height:1.7;}
+.tip-box strong{color:var(--text);}
+
+/* TABS */
+.tab-row{display:flex;gap:3px;background:var(--surface);border:1px solid var(--border);border-radius:7px;padding:3px;width:fit-content;margin-bottom:16px;flex-wrap:wrap;}
+.tab{padding:5px 12px;border-radius:5px;cursor:pointer;font-size:11px;font-weight:600;color:var(--muted);transition:all .15s;user-select:none;}
+.tab.active{background:var(--surface2);color:var(--text);border:1px solid var(--border);}
+.week-section{display:none;}
+.week-section.visible{display:block;}
+.week-hdr{display:flex;align-items:center;gap:10px;margin-bottom:10px;flex-wrap:wrap;}
+.week-badge{font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:1px;padding:4px 10px;border-radius:4px;font-weight:600;flex-shrink:0;}
+.week-title{font-size:13px;font-weight:700;}
+.week-prog{margin-left:auto;font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--muted);}
+
+/* TABLE */
+.dtable{background:var(--surface);border:1px solid var(--border);border-radius:10px;overflow:hidden;margin-bottom:16px;}
+.thead{display:grid;grid-template-columns:55px 1fr 120px 100px 110px;gap:8px;padding:8px 14px;background:var(--bg);border-bottom:1px solid var(--border);}
+.thead span{font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--muted);}
+.trow{display:grid;grid-template-columns:55px 1fr 120px 100px 110px;gap:8px;padding:11px 14px;border-bottom:1px solid var(--border);align-items:center;transition:background .1s;}
+.trow:last-child{border-bottom:none;}
+.trow:hover{background:var(--surface2);}
+.trow.done{opacity:.45;}
+.trow.done .tname{text-decoration:line-through;color:var(--muted);}
+.tday{font-family:'JetBrains Mono',monospace;font-size:9px;color:var(--muted);}
+.tname{font-size:11px;line-height:1.55;}
+.ttopic{display:inline-flex;align-items:center;padding:2px 7px;border-radius:4px;font-size:9px;font-weight:700;width:fit-content;}
+.tlevel{font-family:'JetBrains Mono',monospace;font-size:9px;}
+.chk-btn{display:flex;align-items:center;gap:6px;cursor:pointer;user-select:none;}
+.chkbox{width:17px;height:17px;border:1.5px solid var(--border);border-radius:4px;display:flex;align-items:center;justify-content:center;font-size:10px;transition:all .15s;flex-shrink:0;}
+.chkbox.on{background:var(--done);border-color:var(--done);color:#fff;}
+.chk-lbl{font-size:10px;color:var(--muted);}
+
+/* EXAM OVERVIEW CARDS */
+.exam-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-bottom:20px;}
+.exam-card{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:18px;border-top:3px solid var(--c,#555);}
+.exam-card .ec-stage{font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--muted);margin-bottom:6px;}
+.exam-card .ec-title{font-size:15px;font-weight:800;margin-bottom:6px;}
+.exam-card .ec-marks{font-size:12px;color:var(--muted);margin-bottom:10px;line-height:1.6;}
+.exam-card .ec-tip{font-size:11px;color:var(--muted);border-top:1px solid var(--border);padding-top:10px;line-height:1.6;}
+
+/* NOTES */
+.notes-card{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:16px;margin-bottom:14px;}
+.notes-card h4{font-size:10px;font-weight:700;color:var(--muted);letter-spacing:1px;text-transform:uppercase;margin-bottom:8px;}
+.notes-card textarea{width:100%;background:var(--bg);border:1px solid var(--border);border-radius:6px;padding:10px;font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--text);resize:vertical;min-height:80px;outline:none;transition:border-color .15s;line-height:1.6;}
+.notes-card textarea:focus{border-color:var(--green);}
+.save-btn{margin-top:8px;background:var(--surface2);color:var(--text);border:1px solid var(--border);border-radius:6px;padding:6px 14px;font-family:'JetBrains Mono',monospace;font-size:10px;cursor:pointer;transition:all .15s;}
+.save-btn:hover{border-color:var(--green);color:var(--green-l);}
+
+/* CA LOG */
+.ca-log-form{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:16px;margin-bottom:16px;}
+.ca-inputs{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-bottom:10px;}
+.ca-input{background:var(--bg);border:1px solid var(--border);border-radius:6px;padding:8px 10px;font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--text);outline:none;transition:border-color .15s;width:100%;}
+.ca-input:focus{border-color:var(--teal);}
+.add-btn{background:var(--green);color:#fff;border:none;border-radius:6px;padding:8px 18px;font-family:'JetBrains Mono',monospace;font-size:11px;cursor:pointer;font-weight:700;transition:all .15s;}
+.add-btn:hover{background:var(--green-l);}
+
+/* RESOURCES */
+.res-section{margin-bottom:22px;}
+.res-section-title{font-size:12px;font-weight:800;margin-bottom:10px;display:flex;align-items:center;gap:8px;}
+.res-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:10px;}
+.res-card{background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:14px;border-top:3px solid var(--acc,#555);}
+.res-card .rc-tag{font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--muted);margin-bottom:4px;}
+.res-card .rc-name{font-size:12px;font-weight:700;margin-bottom:4px;}
+.res-card .rc-desc{font-size:10px;color:var(--muted);line-height:1.6;}
+.free-tag{display:inline-block;margin-top:6px;padding:2px 7px;border-radius:3px;font-size:9px;font-weight:700;letter-spacing:.5px;}
+
+/* STREAK CAL */
+.streak-cal{display:flex;gap:3px;flex-wrap:wrap;}
+.sc-day{width:17px;height:17px;border-radius:3px;background:var(--border);}
+.sc-day.on{background:var(--green);}
+.sc-day.today{background:var(--gold);}
+
+/* DAILY CHECKLIST */
+.daily-check-item{display:flex;align-items:center;gap:10px;padding:10px 14px;background:var(--bg);border:1px solid var(--border);border-radius:7px;cursor:pointer;transition:background .1s;margin-bottom:6px;}
+.daily-check-item:hover{background:var(--surface2);}
+.dc-box{width:17px;height:17px;border:1.5px solid var(--border);border-radius:4px;display:flex;align-items:center;justify-content:center;font-size:10px;flex-shrink:0;transition:all .15s;}
+.dc-box.on{background:var(--done);border-color:var(--done);color:#fff;}
+.dc-lbl{font-size:12px;}
+
+/* MOCK TEST LOG */
+.mock-table{background:var(--surface);border:1px solid var(--border);border-radius:10px;overflow:hidden;margin-bottom:16px;}
+.mock-thead{display:grid;grid-template-columns:160px 80px 80px 80px 1fr 90px;gap:8px;padding:8px 14px;background:var(--bg);border-bottom:1px solid var(--border);}
+.mock-thead span{font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--muted);}
+.mock-row{display:grid;grid-template-columns:160px 80px 80px 80px 1fr 90px;gap:8px;padding:10px 14px;border-bottom:1px solid var(--border);align-items:center;font-size:11px;}
+.mock-row:last-child{border-bottom:none;}
+/* RESOURCE LINKS */
+.res-link{display:block;margin-top:6px;font-family:'JetBrains Mono',monospace;font-size:9px;color:#60a5e8;text-decoration:none;padding:4px 8px;background:rgba(59,130,196,.1);border:1px solid rgba(59,130,196,.2);border-radius:4px;transition:all .15s;word-break:break-all;}
+.res-link:hover{background:rgba(59,130,196,.25);color:#fff;border-color:#3b82c4;}
+.qlink{display:inline-flex;align-items:center;padding:5px 12px;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.1);border-radius:20px;font-size:11px;font-weight:600;text-decoration:none;transition:all .15s;}
+.qlink:hover{background:rgba(255,255,255,.09);transform:translateY(-1px);}
+.pyq-row{display:grid;grid-template-columns:80px 160px 1fr 1fr 110px;gap:8px;padding:10px 16px;border-bottom:1px solid var(--border);align-items:start;font-size:11px;transition:background .1s;}
+.pyq-row:last-child{border-bottom:none;}
+.pyq-row:hover{background:var(--surface2);}
+.eq-box{background:var(--surface);border:1px solid var(--border);border-radius:10px;overflow:hidden;}
+.eq-item{padding:12px 16px;border-bottom:1px solid var(--border);display:flex;gap:10px;align-items:flex-start;}
+.eq-item:last-child{border-bottom:none;}
+.eq-prob{flex-shrink:0;font-family:'JetBrains Mono',monospace;font-size:9px;padding:3px 8px;border-radius:4px;font-weight:700;}
+.eq-q{font-size:11px;line-height:1.65;}
+.eq-hint{font-size:10px;color:var(--muted);margin-top:3px;line-height:1.5;}
+.freq-row{display:grid;grid-template-columns:180px 1fr 55px;gap:10px;align-items:center;margin-bottom:10px;}
+.freq-bar-bg{background:var(--border);border-radius:99px;height:8px;overflow:hidden;}
+.freq-bar{height:100%;border-radius:99px;transition:width .8s ease;}
+.res-cat-hidden{display:none!important;}
+
+@media(max-width:960px){
+  .sidebar{display:none;}
+  .main{padding:18px 12px;}
+  .stats-row{grid-template-columns:repeat(3,1fr);}
+  .exam-grid{grid-template-columns:1fr;}
+  .thead,.trow{grid-template-columns:44px 1fr 100px 100px;}
+  .thead span:nth-child(4),.trow>*:nth-child(4){display:none;}
+}
+</style>
+</head>
+<body>
+<div class="layout">
+
+<!-- ═══ SIDEBAR ═══ -->
+<div class="sidebar">
+  <div class="sb-logo">
+    <div class="flag">🏛️</div>
+    <div class="name">ARJUUU ❤️ — TNPSC Group 1</div>
+    <div class="sub">Tamil Nadu Civil Services Exam</div>
+    <div class="exam-badge">⭐ Deputy Collector · DSP · AC</div>
+  </div>
+
+  <div class="nav-group">
+    <div class="nav-label">Overview</div>
+    <div class="nav-item active" onclick="showPanel('dashboard',this)">📊 Dashboard</div>
+    <div class="nav-item" onclick="showPanel('daily',this)">☀️ Daily Routine</div>
+  </div>
+
+  <div class="nav-group">
+    <div class="nav-label">📋 Prelims Prep</div>
+    <div class="nav-item" onclick="showPanel('p-history',this)">
+      <div class="nav-dot" style="background:var(--gold)"></div>History — India + TN
+      <span class="nav-pct" id="np-p-history">0%</span>
+    </div>
+    <div class="nav-item" onclick="showPanel('p-polity',this)">
+      <div class="nav-dot" style="background:var(--blue)"></div>Indian Polity
+      <span class="nav-pct" id="np-p-polity">0%</span>
+    </div>
+    <div class="nav-item" onclick="showPanel('p-geography',this)">
+      <div class="nav-dot" style="background:var(--green)"></div>Geography + Env
+      <span class="nav-pct" id="np-p-geography">0%</span>
+    </div>
+    <div class="nav-item" onclick="showPanel('p-economy',this)">
+      <div class="nav-dot" style="background:var(--saffron)"></div>Economy
+      <span class="nav-pct" id="np-p-economy">0%</span>
+    </div>
+    <div class="nav-item" onclick="showPanel('p-science',this)">
+      <div class="nav-dot" style="background:var(--teal)"></div>Science + Tech
+      <span class="nav-pct" id="np-p-science">0%</span>
+    </div>
+    <div class="nav-item" onclick="showPanel('p-aptitude',this)">
+      <div class="nav-dot" style="background:var(--purple)"></div>Aptitude + Maths
+      <span class="nav-pct" id="np-p-aptitude">0%</span>
+    </div>
+    <div class="nav-item" onclick="showPanel('p-ca',this)">
+      <div class="nav-dot" style="background:var(--red)"></div>Current Affairs
+      <span class="nav-pct" id="np-p-ca">0%</span>
+    </div>
+  </div>
+
+  <div class="nav-group">
+    <div class="nav-label">📝 Mains Prep</div>
+    <div class="nav-item" onclick="showPanel('m-paper1',this)">
+      <div class="nav-dot" style="background:var(--gold)"></div>Paper 1 — Tamil
+      <span class="nav-pct" id="np-m-paper1">0%</span>
+    </div>
+    <div class="nav-item" onclick="showPanel('m-paper2',this)">
+      <div class="nav-dot" style="background:var(--blue)"></div>Paper 2 — GS I
+      <span class="nav-pct" id="np-m-paper2">0%</span>
+    </div>
+    <div class="nav-item" onclick="showPanel('m-paper3',this)">
+      <div class="nav-dot" style="background:var(--green)"></div>Paper 3 — GS II
+      <span class="nav-pct" id="np-m-paper3">0%</span>
+    </div>
+    <div class="nav-item" onclick="showPanel('m-paper4',this)">
+      <div class="nav-dot" style="background:var(--saffron)"></div>Paper 4 — GS III
+      <span class="nav-pct" id="np-m-paper4">0%</span>
+    </div>
+    <div class="nav-item" onclick="showPanel('m-answer',this)">
+      <div class="nav-dot" style="background:var(--purple)"></div>Answer Writing
+      <span class="nav-pct" id="np-m-answer">0%</span>
+    </div>
+  </div>
+
+  <div class="nav-group">
+    <div class="nav-label">🎙️ Interview</div>
+    <div class="nav-item" onclick="showPanel('i-prep',this)">
+      <div class="nav-dot" style="background:var(--purple)"></div>Interview Prep
+      <span class="nav-pct" id="np-i-prep">0%</span>
+    </div>
+  </div>
+
+  <div class="nav-group">
+    <div class="nav-label">Tools</div>
+    <div class="nav-item" onclick="showPanel('ca-log',this)">📰 Current Affairs Log</div>
+    <div class="nav-item" onclick="showPanel('mock-log',this)">📊 Mock Test Log</div>
+    <div class="nav-item" onclick="showPanel('notes',this)">📝 My Notes</div>
+    <div class="nav-item" onclick="showPanel('resources',this)">📚 Resources</div>
+  </div>
+
+  <div class="sb-streak">
+    <div class="sl">30-day streak</div>
+    <div class="streak-dots" id="sb-streak"></div>
+  </div>
+</div>
+
+<!-- ═══ MAIN ═══ -->
+<div class="main">
+
+<!-- ── DASHBOARD ── -->
+<div id="panel-dashboard" class="panel active">
+  <div class="topbar">
+    <div><h1>🏛️ TNPSC Group 1 Dashboard</h1><div class="meta" id="today-date"></div></div>
+    <div style="font-family:'JetBrains Mono',monospace;font-size:9px;color:var(--muted);text-align:right">Prelims · Mains · Interview<br>3–4 months focused preparation</div>
+  </div>
+
+  <div class="stats-row">
+    <div class="stat"><div class="sl">Total Topics</div><div class="sv" id="st-total">0</div><div class="ss">across all subjects</div></div>
+    <div class="stat"><div class="sl">Completed</div><div class="sv" style="color:var(--green-l)" id="st-done">0</div><div class="ss">topics done ✓</div></div>
+    <div class="stat"><div class="sl">Remaining</div><div class="sv" style="color:var(--warn)" id="st-rem">0</div><div class="ss">topics to go</div></div>
+    <div class="stat"><div class="sl">Day Streak</div><div class="sv" style="color:var(--gold)" id="st-streak">0</div><div class="ss">days studied 🔥</div></div>
+    <div class="stat"><div class="sl">Progress</div><div class="sv" style="color:var(--green-l)" id="st-pct">0%</div><div class="ss">overall</div></div>
+  </div>
+
+  <div class="progress-card">
+    <div class="pc-header"><div class="pc-title">Overall Preparation Progress</div><div class="pc-pct" id="ov-pct">0%</div></div>
+    <div class="prog-track"><div class="prog-fill" id="ov-bar" style="width:0%"></div></div>
+    <div class="stage-row">
+      <div class="stage-mini">
+        <div class="sm-top"><div class="sm-name" style="color:var(--gold)">📋 Prelims</div><div class="sm-pct" style="color:var(--gold)" id="pct-prelims">0%</div></div>
+        <div class="sm-track"><div class="sm-bar" id="bar-prelims" style="background:var(--gold);width:0%"></div></div>
+      </div>
+      <div class="stage-mini">
+        <div class="sm-top"><div class="sm-name" style="color:var(--blue)">📝 Mains</div><div class="sm-pct" style="color:var(--blue)" id="pct-mains">0%</div></div>
+        <div class="sm-track"><div class="sm-bar" id="bar-mains" style="background:var(--blue);width:0%"></div></div>
+      </div>
+      <div class="stage-mini">
+        <div class="sm-top"><div class="sm-name" style="color:var(--purple)">🎙️ Interview</div><div class="sm-pct" style="color:var(--purple)" id="pct-interview">0%</div></div>
+        <div class="sm-track"><div class="sm-bar" id="bar-interview" style="background:var(--purple);width:0%"></div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Exam Structure Cards -->
+  <div style="font-size:12px;font-weight:800;margin-bottom:10px;color:var(--gold)">⭐ Exam Structure — 3 Stages to Become Deputy Collector</div>
+  <div class="exam-grid">
+    <div class="exam-card" style="--c:var(--gold)">
+      <div class="ec-stage" style="color:var(--gold)">Stage 1</div>
+      <div class="ec-title">Prelims — Qualifying</div>
+      <div class="ec-marks">📋 200 Questions · 300 Marks · 3 Hours<br>Part A: General Studies (175 Qs)<br>Part B: Aptitude & Mental Ability (25 Qs)<br>❗ No negative marking · Qualifying only<br>Min: 120 marks (OC) / 90 marks (BC/SC/ST)</div>
+      <div class="ec-tip">✅ Target: 160+ correct answers. Focus on TN History, Polity, Science, Geography. Qualify here to reach Mains.</div>
+    </div>
+    <div class="exam-card" style="--c:var(--blue)">
+      <div class="ec-stage" style="color:var(--blue)">Stage 2</div>
+      <div class="ec-title">Mains — Descriptive · 750 Marks</div>
+      <div class="ec-marks">📝 4 Papers · 3 Hours each<br>Paper 1: Tamil (Qualifying · 100 marks)<br>Paper 2: GS I — History + Social Issues (250 marks)<br>Paper 3: GS II — Polity + Science + TN Society (250 marks)<br>Paper 4: GS III — Geography + Economy + Env (250 marks)</div>
+      <div class="ec-tip">✅ Marks counted for merit list. Write structured answers. Practice daily answer writing from Month 2.</div>
+    </div>
+    <div class="exam-card" style="--c:var(--purple)">
+      <div class="ec-stage" style="color:var(--purple)">Stage 3</div>
+      <div class="ec-title">Interview — Personality Test · 100 Marks</div>
+      <div class="ec-marks">🎙️ Conducted by TNPSC Board<br>Tests personality, awareness & attitude<br>Tamil Nadu specific knowledge essential<br>Administrative thinking & leadership<br>No minimum qualifying marks</div>
+      <div class="ec-tip">✅ Final merit = Mains (750) + Interview (100) = 850 marks. Every mark matters. Prepare from Month 3.</div>
+    </div>
+  </div>
+
+  <!-- 4-Month Plan -->
+  <div style="background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:18px;margin-bottom:16px;">
+    <div style="font-size:12px;font-weight:800;margin-bottom:14px;color:var(--gold)">📅 4-Month Rapid Preparation Plan</div>
+    <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:10px;">
+      <div style="background:var(--bg);border:1px solid rgba(201,168,76,.3);border-radius:8px;padding:12px;">
+        <div style="font-family:'JetBrains Mono',monospace;font-size:9px;color:var(--gold);margin-bottom:6px;letter-spacing:1px">MONTH 1</div>
+        <div style="font-size:11px;font-weight:700;margin-bottom:6px">Foundation</div>
+        <div style="font-size:10px;color:var(--muted);line-height:1.7">✦ TN History + Culture<br>✦ Indian History<br>✦ Indian Polity<br>✦ Basic Geography<br>✦ Daily Current Affairs<br>✦ Aptitude basics</div>
+      </div>
+      <div style="background:var(--bg);border:1px solid rgba(59,130,196,.3);border-radius:8px;padding:12px;">
+        <div style="font-family:'JetBrains Mono',monospace;font-size:9px;color:var(--blue);margin-bottom:6px;letter-spacing:1px">MONTH 2</div>
+        <div style="font-size:11px;font-weight:700;margin-bottom:6px">Deep Dive + Prelims</div>
+        <div style="font-size:10px;color:var(--muted);line-height:1.7">✦ Science + Technology<br>✦ Economy + Budget<br>✦ Environment + Bio<br>✦ PYQ Practice daily<br>✦ Mock tests weekly<br>✦ Start answer writing</div>
+      </div>
+      <div style="background:var(--bg);border:1px solid rgba(46,158,91,.3);border-radius:8px;padding:12px;">
+        <div style="font-family:'JetBrains Mono',monospace;font-size:9px;color:var(--green);margin-bottom:6px;letter-spacing:1px">MONTH 3</div>
+        <div style="font-size:11px;font-weight:700;margin-bottom:6px">Mains Focus</div>
+        <div style="font-size:10px;color:var(--muted);line-height:1.7">✦ Deep Mains revision<br>✦ Answer writing daily<br>✦ TN Society + Admin<br>✦ Social Issues essays<br>✦ Full mock tests<br>✦ Weak area revision</div>
+      </div>
+      <div style="background:var(--bg);border:1px solid rgba(139,92,246,.3);border-radius:8px;padding:12px;">
+        <div style="font-family:'JetBrains Mono',monospace;font-size:9px;color:var(--purple);margin-bottom:6px;letter-spacing:1px">MONTH 4</div>
+        <div style="font-size:11px;font-weight:700;margin-bottom:6px">Revision + Interview</div>
+        <div style="font-size:10px;color:var(--muted);line-height:1.7">✦ Full syllabus revision<br>✦ Interview preparation<br>✦ Personality development<br>✦ TN current affairs<br>✦ Final mock tests<br>✦ Exam strategy</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="progress-card">
+    <div class="pc-header"><div class="pc-title">30-Day Activity Calendar</div><div style="font-family:'JetBrains Mono',monospace;font-size:9px;color:var(--muted)">🟢 studied · 🟡 today</div></div>
+    <div class="streak-cal" id="streak-cal"></div>
+  </div>
+</div>
+
+<!-- ── DAILY ROUTINE ── -->
+<div id="panel-daily" class="panel">
+  <div class="topbar"><div><h1>☀️ Daily Study Routine</h1><div class="meta">Every day · 6–8 hours · Consistent · No excuse days</div></div></div>
+
+  <div class="tip-box">⚡ <strong>Golden Rule:</strong> TNPSC Group 1 toppers study 8+ hours daily. Since you have a job, aim for minimum 4 hours on weekdays and 8+ hours on weekends. Consistency > intensity. Missing even 1 day breaks momentum.</div>
+
+  <div style="background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:18px;margin-bottom:16px;">
+    <div style="font-size:12px;font-weight:800;margin-bottom:14px;color:var(--gold)">⏰ Working Day Schedule (Weekdays — 4 hrs minimum)</div>
+    <div id="daily-checklist-main"></div>
+    <button onclick="resetDailyChecklist()" style="margin-top:10px;background:var(--surface2);color:var(--muted);border:1px solid var(--border);border-radius:6px;padding:6px 14px;font-family:'JetBrains Mono',monospace;font-size:10px;cursor:pointer">↺ Reset Today</button>
+  </div>
+
+  <div style="background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:18px;margin-bottom:16px;">
+    <div style="font-size:12px;font-weight:800;margin-bottom:12px;color:var(--blue)">📅 Weekend Schedule (Saturday & Sunday — 8+ hrs)</div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;">
+      <div style="background:var(--bg);border:1px solid var(--border);border-radius:8px;padding:12px;">
+        <div style="font-size:11px;font-weight:700;margin-bottom:8px;color:var(--gold)">Saturday</div>
+        <div style="font-size:11px;color:var(--muted);line-height:2">
+          6:00–8:00 AM → Current Affairs + Newspaper<br>
+          8:30–11:00 AM → History / Polity deep study<br>
+          11:00–11:15 → Break<br>
+          11:15–1:00 PM → Geography / Economy<br>
+          2:00–4:00 PM → Science + Technology<br>
+          4:00–5:30 PM → Previous Year Questions<br>
+          6:00–8:00 PM → Revision + Notes making<br>
+          8:30–9:30 PM → Answer writing practice (1 answer)
+        </div>
+      </div>
+      <div style="background:var(--bg);border:1px solid var(--border);border-radius:8px;padding:12px;">
+        <div style="font-size:11px;font-weight:700;margin-bottom:8px;color:var(--blue)">Sunday</div>
+        <div style="font-size:11px;color:var(--muted);line-height:2">
+          6:00–8:00 AM → Full length Mock Test (2 hrs)<br>
+          8:30–9:30 AM → Analyze test results + weak areas<br>
+          10:00–12:00 PM → TN Specific topics (History/Culture)<br>
+          1:00–3:00 PM → Aptitude + Mental Ability practice<br>
+          3:00–5:00 PM → Weekly revision of all topics<br>
+          5:00–7:00 PM → Answer writing (2 answers)<br>
+          7:30–9:00 PM → Current Affairs compilation<br>
+          9:00–9:30 PM → Next week planning
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div id="subject-weekly-box"></div>
+  <script>
+    function renderSubjectWeekly(){
+      const data = [
+        ['TN History + Culture','12 hrs/week','--gold'],
+        ['Indian History','6 hrs/week','--saffron'],
+        ['Indian Polity','8 hrs/week','--blue'],
+        ['Geography + Env','6 hrs/week','--green'],
+        ['Economy','6 hrs/week','--teal'],
+        ['Science + Tech','6 hrs/week','--teal'],
+        ['Aptitude + Maths','4 hrs/week','--purple'],
+        ['Current Affairs','14 hrs/week','--red'],
+        ['Answer Writing','6 hrs/week','--blue'],
+        ['Mock Tests + PYQ','6 hrs/week','--gold'],
+      ];
+
+      const ct = document.getElementById('subject-weekly-box');
+      if(!ct) return;
+
+      ct.innerHTML = `
+      <div style="background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:18px;margin-bottom:16px;">
+        <div style="font-size:12px;font-weight:800;margin-bottom:12px;color:var(--green)">
+          🎯 Subject-Wise Weekly Time Allocation
+        </div>
+
+        <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(170px,1fr));gap:8px;">
+          ${data.map(([s,h,c]) => `
+            <div style="background:var(--bg);border:1px solid var(${c});border-radius:8px;padding:10px;">
+              <div style="font-size:10px;font-weight:700;color:var(${c})">${h}</div>
+              <div style="font-size:10px;color:var(--muted);margin-top:3px">${s}</div>
+            </div>
+          `).join('')}
+        </div>
+      </div>`;
+    }
+  </script>
+
+  <!-- <div style="background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:18px;margin-bottom:16px;">
+    <div style="font-size:12px;font-weight:800;margin-bottom:12px;color:var(--green)">🎯 Subject-Wise Weekly Time Allocation</div>
+    <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(170px,1fr));gap:8px;">
+      ${[
+        ['TN History + Culture','12 hrs/week','--gold'],
+        ['Indian History','6 hrs/week','--saffron'],
+        ['Indian Polity','8 hrs/week','--blue'],
+        ['Geography + Env','6 hrs/week','--green'],
+        ['Economy','6 hrs/week','--teal'],
+        ['Science + Tech','6 hrs/week','--teal'],
+        ['Aptitude + Maths','4 hrs/week','--purple'],
+        ['Current Affairs','14 hrs/week','--red'],
+        ['Answer Writing','6 hrs/week','--blue'],
+        ['Mock Tests + PYQ','6 hrs/week','--gold'],
+      ].map(([s,h,c])=>`<div style="background:var(--bg);border:1px solid var(${c},.3);border-radius:8px;padding:10px;"><div style="font-size:10px;font-weight:700;color:var(${c})">${h}</div><div style="font-size:10px;color:var(--muted);margin-top:3px">${s}</div></div>`).join('')}
+    </div>
+  </div> -->
+</div>
+
+<!-- ══ PRELIMS: HISTORY ══ -->
+<div id="panel-p-history" class="panel">
+  <div class="topbar"><div><h1>📋 History — India + Tamil Nadu</h1><div class="meta">Prelims + Mains · Highest weightage · 25–30 questions in Prelims</div></div></div>
+  <div class="tip-box">📖 <strong>Key Strategy:</strong> TN History carries the most questions. Read Samacheer Kalvi books (6th–12th) first. Then NCERT. Focus on Tamil Nadu freedom fighters, social reform movements, Sangam literature. Every fact matters — dates, names, places.</div>
+  <div class="tab-row">
+    <div class="tab active" onclick="switchTab(this,'ph-w1')">TN History</div>
+    <div class="tab" onclick="switchTab(this,'ph-w2')">Ancient India</div>
+    <div class="tab" onclick="switchTab(this,'ph-w3')">Medieval India</div>
+    <div class="tab" onclick="switchTab(this,'ph-w4')">Modern India</div>
+  </div>
+  <div class="week-section visible" id="ph-w1">
+    <div class="week-hdr"><div class="week-badge" style="background:rgba(201,168,76,.15);color:var(--gold)">TN History</div><div class="week-title">Tamil Nadu History, Culture & Social Reform Movements</div><div class="week-prog" id="wp-ph-w1">0/10</div></div>
+    <div class="dtable"><div class="thead"><span>Topic No.</span><span>Topic to Study</span><span>Subject</span><span>Priority</span><span>Status</span></div><div id="rows-ph-w1"></div></div>
+  </div>
+  <div class="week-section" id="ph-w2">
+    <div class="week-hdr"><div class="week-badge" style="background:rgba(201,168,76,.15);color:var(--gold)">Ancient</div><div class="week-title">Ancient India — Indus Valley to Gupta Empire</div><div class="week-prog" id="wp-ph-w2">0/8</div></div>
+    <div class="dtable"><div class="thead"><span>Topic No.</span><span>Topic to Study</span><span>Subject</span><span>Priority</span><span>Status</span></div><div id="rows-ph-w2"></div></div>
+  </div>
+  <div class="week-section" id="ph-w3">
+    <div class="week-hdr"><div class="week-badge" style="background:rgba(201,168,76,.15);color:var(--gold)">Medieval</div><div class="week-title">Medieval India — Delhi Sultanate to Mughal Empire</div><div class="week-prog" id="wp-ph-w3">0/7</div></div>
+    <div class="dtable"><div class="thead"><span>Topic No.</span><span>Topic to Study</span><span>Subject</span><span>Priority</span><span>Status</span></div><div id="rows-ph-w3"></div></div>
+  </div>
+  <div class="week-section" id="ph-w4">
+    <div class="week-hdr"><div class="week-badge" style="background:rgba(201,168,76,.15);color:var(--gold)">Modern</div><div class="week-title">Modern India — British Rule, Freedom Struggle, Independence</div><div class="week-prog" id="wp-ph-w4">0/8</div></div>
+    <div class="dtable"><div class="thead"><span>Topic No.</span><span>Topic to Study</span><span>Subject</span><span>Priority</span><span>Status</span></div><div id="rows-ph-w4"></div></div>
+  </div>
+</div>
+
+<!-- ══ PRELIMS: POLITY ══ -->
+<div id="panel-p-polity" class="panel">
+  <div class="topbar"><div><h1>📋 Indian Polity & Governance</h1><div class="meta">Prelims + Mains Paper 3 · 20–25 questions · Constitution + Administration</div></div></div>
+  <div class="tip-box">📘 <strong>Key Strategy:</strong> Read M. Laxmikanth's "Indian Polity" — the best book for this. Focus on Constitution basics, Fundamental Rights, DPSP, Parliament, President, Governor. TN-specific: CM, Governor powers, Panchayat Raj system.</div>
+  <div class="week-section visible" id="pp-w1">
+    <div class="week-hdr"><div class="week-badge" style="background:rgba(59,130,196,.15);color:var(--blue)">Polity</div><div class="week-title">Complete Indian Polity — Constitution to Local Government</div><div class="week-prog" id="wp-pp-w1">0/12</div></div>
+    <div class="dtable"><div class="thead"><span>Topic No.</span><span>Topic to Study</span><span>Subject</span><span>Priority</span><span>Status</span></div><div id="rows-pp-w1"></div></div>
+  </div>
+</div>
+
+<!-- ══ PRELIMS: GEOGRAPHY ══ -->
+<div id="panel-p-geography" class="panel">
+  <div class="topbar"><div><h1>📋 Geography + Environment</h1><div class="meta">Prelims + Mains Paper 4 · 15–20 questions · India + TN specific</div></div></div>
+  <div class="tip-box">🗺️ <strong>Key Strategy:</strong> Focus on Tamil Nadu geography — districts, rivers, mountains, rainfall, soil types, agriculture. India geography — Himalayas, rivers, climate zones. Environment — very important for Mains Paper 4.</div>
+  <div class="tab-row">
+    <div class="tab active" onclick="switchTab(this,'pg-w1')">India Geography</div>
+    <div class="tab" onclick="switchTab(this,'pg-w2')">TN Geography</div>
+    <div class="tab" onclick="switchTab(this,'pg-w3')">Environment + Bio</div>
+  </div>
+  <div class="week-section visible" id="pg-w1">
+    <div class="week-hdr"><div class="week-badge" style="background:rgba(46,158,91,.15);color:var(--green)">India Geo</div><div class="week-title">Indian Geography — Physical, Climate, Resources, Agriculture</div><div class="week-prog" id="wp-pg-w1">0/9</div></div>
+    <div class="dtable"><div class="thead"><span>Topic No.</span><span>Topic to Study</span><span>Subject</span><span>Priority</span><span>Status</span></div><div id="rows-pg-w1"></div></div>
+  </div>
+  <div class="week-section" id="pg-w2">
+    <div class="week-hdr"><div class="week-badge" style="background:rgba(46,158,91,.15);color:var(--green)">TN Geo</div><div class="week-title">Tamil Nadu Geography — Districts, Rivers, Agriculture, Economy</div><div class="week-prog" id="wp-pg-w2">0/7</div></div>
+    <div class="dtable"><div class="thead"><span>Topic No.</span><span>Topic to Study</span><span>Subject</span><span>Priority</span><span>Status</span></div><div id="rows-pg-w2"></div></div>
+  </div>
+  <div class="week-section" id="pg-w3">
+    <div class="week-hdr"><div class="week-badge" style="background:rgba(46,158,91,.15);color:var(--green)">Env + Bio</div><div class="week-title">Environment, Biodiversity + Disaster Management</div><div class="week-prog" id="wp-pg-w3">0/7</div></div>
+    <div class="dtable"><div class="thead"><span>Topic No.</span><span>Topic to Study</span><span>Subject</span><span>Priority</span><span>Status</span></div><div id="rows-pg-w3"></div></div>
+  </div>
+</div>
+
+<!-- ══ PRELIMS: ECONOMY ══ -->
+<div id="panel-p-economy" class="panel">
+  <div class="topbar"><div><h1>📋 Indian Economy</h1><div class="meta">Prelims + Mains Paper 4 · 15–20 questions · India + TN economy</div></div></div>
+  <div class="tip-box">💰 <strong>Key Strategy:</strong> Read Ramesh Singh's "Indian Economy". Focus on: Five Year Plans (now NITI Aayog), Union Budget basics, GST, RBI, inflation, banking, TN's GSDP, key industries. Current economic news very important.</div>
+  <div class="week-section visible" id="pe-w1">
+    <div class="week-hdr"><div class="week-badge" style="background:rgba(232,115,42,.15);color:var(--saffron)">Economy</div><div class="week-title">Indian + TN Economy — Complete Coverage</div><div class="week-prog" id="wp-pe-w1">0/11</div></div>
+    <div class="dtable"><div class="thead"><span>Topic No.</span><span>Topic to Study</span><span>Subject</span><span>Priority</span><span>Status</span></div><div id="rows-pe-w1"></div></div>
+  </div>
+</div>
+
+<!-- ══ PRELIMS: SCIENCE ══ -->
+<div id="panel-p-science" class="panel">
+  <div class="topbar"><div><h1>📋 General Science + Technology</h1><div class="meta">Prelims + Mains Paper 3 · 20–25 questions · Physics, Chemistry, Biology, Tech</div></div></div>
+  <div class="tip-box">🔬 <strong>Key Strategy:</strong> Read Samacheer Kalvi 6th–10th Science books. Focus on: Human body systems, Plant biology, Basic physics (electricity, magnetism, light), Chemistry (elements, acids, bases), Space/ISRO, recent technology developments.</div>
+  <div class="tab-row">
+    <div class="tab active" onclick="switchTab(this,'ps-w1')">Physics + Chem</div>
+    <div class="tab" onclick="switchTab(this,'ps-w2')">Biology + Health</div>
+    <div class="tab" onclick="switchTab(this,'ps-w3')">Technology + Space</div>
+  </div>
+  <div class="week-section visible" id="ps-w1">
+    <div class="week-hdr"><div class="week-badge" style="background:rgba(13,148,136,.15);color:var(--teal)">Physics+Chem</div><div class="week-title">Physics, Chemistry — Laws, Elements, Everyday Applications</div><div class="week-prog" id="wp-ps-w1">0/8</div></div>
+    <div class="dtable"><div class="thead"><span>Topic No.</span><span>Topic to Study</span><span>Subject</span><span>Priority</span><span>Status</span></div><div id="rows-ps-w1"></div></div>
+  </div>
+  <div class="week-section" id="ps-w2">
+    <div class="week-hdr"><div class="week-badge" style="background:rgba(13,148,136,.15);color:var(--teal)">Biology</div><div class="week-title">Biology, Health, Human Diseases — Life Science</div><div class="week-prog" id="wp-ps-w2">0/8</div></div>
+    <div class="dtable"><div class="thead"><span>Topic No.</span><span>Topic to Study</span><span>Subject</span><span>Priority</span><span>Status</span></div><div id="rows-ps-w2"></div></div>
+  </div>
+  <div class="week-section" id="ps-w3">
+    <div class="week-hdr"><div class="week-badge" style="background:rgba(13,148,136,.15);color:var(--teal)">Tech + Space</div><div class="week-title">Technology, Space, Defense, IT — Role in India's Development</div><div class="week-prog" id="wp-ps-w3">0/7</div></div>
+    <div class="dtable"><div class="thead"><span>Topic No.</span><span>Topic to Study</span><span>Subject</span><span>Priority</span><span>Status</span></div><div id="rows-ps-w3"></div></div>
+  </div>
+</div>
+
+<!-- ══ PRELIMS: APTITUDE ══ -->
+<div id="panel-p-aptitude" class="panel">
+  <div class="topbar"><div><h1>📋 Aptitude + Mental Ability</h1><div class="meta">Prelims Part B · 25 Questions · SSLC Standard · Easy marks — don't lose them!</div></div></div>
+  <div class="tip-box">🧮 <strong>Key Strategy:</strong> These 25 questions are SSLC level — they should be easy marks. Practice daily for 30 minutes. Target 22+/25 here. Use RS Aggarwal. Topics: Number series, ratio, percentage, time-speed-distance, logical reasoning.</div>
+  <div class="week-section visible" id="pa-w1">
+    <div class="week-hdr"><div class="week-badge" style="background:rgba(139,92,246,.15);color:var(--purple)">Aptitude</div><div class="week-title">Quantitative Aptitude + Logical Reasoning + Data Interpretation</div><div class="week-prog" id="wp-pa-w1">0/10</div></div>
+    <div class="dtable"><div class="thead"><span>Topic No.</span><span>Topic to Study</span><span>Subject</span><span>Priority</span><span>Status</span></div><div id="rows-pa-w1"></div></div>
+  </div>
+</div>
+
+<!-- ══ PRELIMS: CURRENT AFFAIRS ══ -->
+<div id="panel-p-ca" class="panel">
+  <div class="topbar"><div><h1>📋 Current Affairs Strategy</h1><div class="meta">Prelims + Mains · 20–30 questions · Read daily · Most dynamic section</div></div></div>
+  <div class="tip-box">📰 <strong>Key Strategy:</strong> Current Affairs = Daily discipline. Read The Hindu or Dinamani every morning. Focus on: TN Government schemes, Central Government schemes, Awards, Sports, International affairs, Science news, Appointments (who is who). Make notes daily.</div>
+  <div class="week-section visible" id="pca-w1">
+    <div class="week-hdr"><div class="week-badge" style="background:rgba(220,74,61,.15);color:var(--red)">Current Affairs</div><div class="week-title">Current Affairs Topics to Track Daily</div><div class="week-prog" id="wp-pca-w1">0/10</div></div>
+    <div class="dtable"><div class="thead"><span>Topic No.</span><span>Topic to Study</span><span>Subject</span><span>Priority</span><span>Status</span></div><div id="rows-pca-w1"></div></div>
+  </div>
+</div>
+
+<!-- ══ MAINS: PAPER 1 ══ -->
+<div id="panel-m-paper1" class="panel">
+  <div class="topbar"><div><h1>📝 Mains Paper 1 — Tamil Language</h1><div class="meta">Qualifying Paper · 100 Marks · 3 Hours · Must pass · Marks not counted for merit</div></div></div>
+  <div class="tip-box">📚 <strong>Key Strategy:</strong> This is QUALIFYING — you must pass but marks don't count for merit. Focus on Tamil grammar (Ilakkanam), comprehension passages, essay writing in Tamil, letter writing. Read Tamil newspapers (Dinamani, Dinamalar) daily for vocabulary.</div>
+  <div class="week-section visible" id="mp1-w1">
+    <div class="week-hdr"><div class="week-badge" style="background:rgba(201,168,76,.15);color:var(--gold)">Tamil Paper</div><div class="week-title">Tamil Grammar, Comprehension, Essay, Letter Writing</div><div class="week-prog" id="wp-mp1-w1">0/8</div></div>
+    <div class="dtable"><div class="thead"><span>Topic No.</span><span>Topic to Study</span><span>Subject</span><span>Priority</span><span>Status</span></div><div id="rows-mp1-w1"></div></div>
+  </div>
+</div>
+
+<!-- ══ MAINS: PAPER 2 ══ -->
+<div id="panel-m-paper2" class="panel">
+  <div class="topbar"><div><h1>📝 Mains Paper 2 — General Studies I</h1><div class="meta">250 Marks · 3 Hours · Descriptive · Modern History + Social Issues + Aptitude</div></div></div>
+  <div class="tip-box">✍️ <strong>Key Strategy:</strong> Paper 2 = Modern History of India + Culture + Social Issues in India & TN + Mental Ability. Write structured answers — Introduction, Body (3–4 paragraphs), Conclusion. Practice 2 answers daily. Use data, examples, TN-specific points.</div>
+  <div class="week-section visible" id="mp2-w1">
+    <div class="week-hdr"><div class="week-badge" style="background:rgba(59,130,196,.15);color:var(--blue)">Paper 2</div><div class="week-title">Modern History + Indian Culture + Social Issues + General Aptitude</div><div class="week-prog" id="wp-mp2-w1">0/10</div></div>
+    <div class="dtable"><div class="thead"><span>Topic No.</span><span>Topic to Study</span><span>Subject</span><span>Priority</span><span>Status</span></div><div id="rows-mp2-w1"></div></div>
+  </div>
+</div>
+
+<!-- ══ MAINS: PAPER 3 ══ -->
+<div id="panel-m-paper3" class="panel">
+  <div class="topbar"><div><h1>📝 Mains Paper 3 — General Studies II</h1><div class="meta">250 Marks · 3 Hours · Descriptive · Indian Polity + Science + Tamil Society</div></div></div>
+  <div class="tip-box">✍️ <strong>Key Strategy:</strong> Paper 3 = Indian Polity + Science & Technology + Tamil Society/Culture/Heritage. Tamil Society section requires knowledge of Dravidian culture, Sangam literature, social reformers, TN festivals, classical arts. Link Polity and TN administration.</div>
+  <div class="week-section visible" id="mp3-w1">
+    <div class="week-hdr"><div class="week-badge" style="background:rgba(46,158,91,.15);color:var(--green)">Paper 3</div><div class="week-title">Indian Polity + Science & Tech + Tamil Society, Culture & Heritage</div><div class="week-prog" id="wp-mp3-w1">0/10</div></div>
+    <div class="dtable"><div class="thead"><span>Topic No.</span><span>Topic to Study</span><span>Subject</span><span>Priority</span><span>Status</span></div><div id="rows-mp3-w1"></div></div>
+  </div>
+</div>
+
+<!-- ══ MAINS: PAPER 4 ══ -->
+<div id="panel-m-paper4" class="panel">
+  <div class="topbar"><div><h1>📝 Mains Paper 4 — General Studies III</h1><div class="meta">250 Marks · 3 Hours · Descriptive · Geography + Environment + Economy</div></div></div>
+  <div class="tip-box">✍️ <strong>Key Strategy:</strong> Paper 4 = Geography (India + TN) + Environment, Biodiversity, Disaster Mgmt + Indian Economy. Current economic events very important. Environment questions increasingly important. TN economy — agriculture, industries, welfare schemes.</div>
+  <div class="week-section visible" id="mp4-w1">
+    <div class="week-hdr"><div class="week-badge" style="background:rgba(232,115,42,.15);color:var(--saffron)">Paper 4</div><div class="week-title">Geography + Environment + Biodiversity + Indian Economy + Global Trends</div><div class="week-prog" id="wp-mp4-w1">0/10</div></div>
+    <div class="dtable"><div class="thead"><span>Topic No.</span><span>Topic to Study</span><span>Subject</span><span>Priority</span><span>Status</span></div><div id="rows-mp4-w1"></div></div>
+  </div>
+</div>
+
+<!-- ══ MAINS: ANSWER WRITING ══ -->
+<div id="panel-m-answer" class="panel">
+  <div class="topbar"><div><h1>📝 Answer Writing Practice</h1><div class="meta">Daily · 2 answers minimum · Structure matters · Quality over quantity</div></div></div>
+  <div class="tip-box">✍️ <strong>Answer Writing Rule:</strong> Mains is won or lost in answer writing. Many students know content but can't write structured answers. Practice daily. Format: Introduction (2 lines) + Body (3–4 paragraphs with headings) + Conclusion (2 lines) + Key data/facts. Aim 200–250 words per answer.</div>
+  <div class="week-section visible" id="maw-w1">
+    <div class="week-hdr"><div class="week-badge" style="background:rgba(139,92,246,.15);color:var(--purple)">Writing</div><div class="week-title">Answer Writing Skills — Format, Structure, Practice Topics</div><div class="week-prog" id="wp-maw-w1">0/10</div></div>
+    <div class="dtable"><div class="thead"><span>Topic No.</span><span>Topic to Study</span><span>Subject</span><span>Priority</span><span>Status</span></div><div id="rows-maw-w1"></div></div>
+  </div>
+</div>
+
+<!-- ══ INTERVIEW PREP ══ -->
+<div id="panel-i-prep" class="panel">
+  <div class="topbar"><div><h1>🎙️ Interview Preparation</h1><div class="meta">100 Marks · Personality Test · TNPSC Board · Final Stage · Start from Month 3</div></div></div>
+  <div class="tip-box">🎙️ <strong>Interview Reality:</strong> TNPSC Group 1 interview is not just GK — it tests your personality, maturity, administrative thinking, and awareness of Tamil Nadu issues. Be calm, confident, honest. Know your district, your graduation subject, current TN issues deeply.</div>
+  <div class="tab-row">
+    <div class="tab active" onclick="switchTab(this,'int-intro')">Introduce Yourself</div>
+    <div class="tab" onclick="switchTab(this,'int-tn')">TN Knowledge</div>
+    <div class="tab" onclick="switchTab(this,'int-admin')">Admin Thinking</div>
+    <div class="tab" onclick="switchTab(this,'int-mock')">Mock Questions</div>
+  </div>
+  <div class="week-section visible" id="int-intro">
+    <div class="week-hdr"><div class="week-badge" style="background:rgba(139,92,246,.15);color:var(--purple)">Self</div><div class="week-title">Personal Introduction + Background + Motivation</div><div class="week-prog" id="wp-int-intro">0/7</div></div>
+    <div class="dtable"><div class="thead"><span>Topic No.</span><span>Topic / Question to Prepare</span><span>Type</span><span>Importance</span><span>Status</span></div><div id="rows-int-intro"></div></div>
+  </div>
+  <div class="week-section" id="int-tn">
+    <div class="week-hdr"><div class="week-badge" style="background:rgba(139,92,246,.15);color:var(--purple)">TN</div><div class="week-title">Tamil Nadu Specific Knowledge — Districts, Schemes, Issues</div><div class="week-prog" id="wp-int-tn">0/8</div></div>
+    <div class="dtable"><div class="thead"><span>Topic No.</span><span>Topic / Question to Prepare</span><span>Type</span><span>Importance</span><span>Status</span></div><div id="rows-int-tn"></div></div>
+  </div>
+  <div class="week-section" id="int-admin">
+    <div class="week-hdr"><div class="week-badge" style="background:rgba(139,92,246,.15);color:var(--purple)">Admin</div><div class="week-title">Administrative Thinking — Situations, Decisions, Governance</div><div class="week-prog" id="wp-int-admin">0/7</div></div>
+    <div class="dtable"><div class="thead"><span>Topic No.</span><span>Topic / Question to Prepare</span><span>Type</span><span>Importance</span><span>Status</span></div><div id="rows-int-admin"></div></div>
+  </div>
+  <div class="week-section" id="int-mock">
+    <div class="week-hdr"><div class="week-badge" style="background:rgba(139,92,246,.15);color:var(--purple)">Mock</div><div class="week-title">Mock Interview Practice — Daily from Month 3</div><div class="week-prog" id="wp-int-mock">0/6</div></div>
+    <div class="dtable"><div class="thead"><span>Topic No.</span><span>Practice Task</span><span>Type</span><span>Importance</span><span>Status</span></div><div id="rows-int-mock"></div></div>
+  </div>
+</div>
+
+<!-- ══ CURRENT AFFAIRS LOG ══ -->
+<div id="panel-ca-log" class="panel">
+  <div class="topbar"><div><h1>📰 Current Affairs Daily Log</h1><div class="meta">Log every important news item · Review weekly · This is your GK bank</div></div></div>
+  <div class="tip-box">📰 <strong>How to use:</strong> Every morning after reading newspaper, log important news here. Categorize it. Review this log every Sunday. Before exam, this becomes your current affairs revision bank. Target: 5–8 news items daily.</div>
+  <div class="ca-log-form">
+    <div style="font-size:12px;font-weight:700;margin-bottom:10px;color:var(--teal)">+ Add Today's Current Affairs</div>
+    <div class="ca-inputs">
+      <input class="ca-input" id="ca-headline" placeholder="Headline / Key Point">
+      <input class="ca-input" id="ca-date" type="date">
+      <select class="ca-input" id="ca-category">
+        <option value="TN Govt">TN Government</option>
+        <option value="Central Govt">Central Government</option>
+        <option value="International">International</option>
+        <option value="Economy">Economy / Finance</option>
+        <option value="Science">Science / Space / Tech</option>
+        <option value="Sports">Sports</option>
+        <option value="Awards">Awards / Honours</option>
+        <option value="Appointments">Appointments / Who is Who</option>
+        <option value="Environment">Environment</option>
+        <option value="Social">Social Issues</option>
+      </select>
+    </div>
+    <input class="ca-input" id="ca-detail" placeholder="Key details / Numbers / Names to remember (important for exam)" style="width:100%;margin-bottom:10px">
+    <button class="add-btn" onclick="addCA()">+ Add to Log</button>
+  </div>
+
+  <div style="display:grid;grid-template-columns:repeat(5,1fr);gap:10px;margin-bottom:16px" id="ca-stats-row"></div>
+
+  <div class="dtable">
+    <div style="display:grid;grid-template-columns:90px 1fr 120px 90px;gap:8px;padding:8px 14px;background:var(--bg);border-bottom:1px solid var(--border)">
+      <span style="font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--muted)">Date</span>
+      <span style="font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--muted)">Headline + Details</span>
+      <span style="font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--muted)">Category</span>
+      <span style="font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--muted)">Delete</span>
+    </div>
+    <div id="ca-list"><div style="padding:20px;text-align:center;color:var(--muted);font-size:12px;font-family:'JetBrains Mono',monospace">No entries yet. Start logging today's news!</div></div>
+  </div>
+</div>
+
+<!-- ══ MOCK TEST LOG ══ -->
+<div id="panel-mock-log" class="panel">
+  <div class="topbar"><div><h1>📊 Mock Test Performance Log</h1><div class="meta">Track every mock test · Identify weak areas · Target 160+ in Prelims</div></div></div>
+  <div class="tip-box">🎯 <strong>Mock Test Strategy:</strong> Take 1 full mock every week from Month 2. Analyze wrong answers — don't just check score. Each wrong answer tells you which topic needs revision. Target score: 160+ for Prelims. Graph your progress weekly.</div>
+  <div class="ca-log-form">
+    <div style="font-size:12px;font-weight:700;margin-bottom:10px;color:var(--gold)">+ Log Mock Test Result</div>
+    <div class="ca-inputs">
+      <input class="ca-input" id="mt-name" placeholder="Mock Test Name / Platform">
+      <input class="ca-input" id="mt-date" type="date">
+      <input class="ca-input" id="mt-score" placeholder="Score (e.g. 142/300)" type="text">
+    </div>
+    <div class="ca-inputs">
+      <input class="ca-input" id="mt-correct" placeholder="Correct Answers" type="number">
+      <input class="ca-input" id="mt-wrong" placeholder="Wrong Answers" type="number">
+      <input class="ca-input" id="mt-weak" placeholder="Weak areas identified">
+    </div>
+    <button class="add-btn" onclick="addMockTest()">+ Add Result</button>
+  </div>
+  <div class="mock-table">
+    <div class="mock-thead"><span>Test Name</span><span>Score</span><span>Correct</span><span>Wrong</span><span>Weak Areas</span><span>Date</span></div>
+    <div id="mock-list"><div style="padding:20px;text-align:center;color:var(--muted);font-size:12px;font-family:'JetBrains Mono',monospace">No mock tests logged yet. Start from Week 4!</div></div>
+  </div>
+</div>
+
+<!-- ══ NOTES ══ -->
+<div id="panel-notes" class="panel">
+  <div class="topbar"><h1>📝 My Study Notes</h1></div>
+  <div class="notes-card"><h4>📌 Today's Key Points Learned</h4><textarea id="note-today" placeholder="What topics did you study today? Key facts, dates, names to remember..."></textarea><button class="save-btn" onclick="saveNote('today',this)">Save</button></div>
+  <div class="notes-card"><h4>🏛️ TN History + Culture Notes</h4><textarea id="note-tnhistory" placeholder="Sangam period, Chola/Pandya/Chera kingdoms, Social reformers (Periyar, Rajaji, Bharathiar, VOC), TN cultural notes..."></textarea><button class="save-btn" onclick="saveNote('tnhistory',this)">Save</button></div>
+  <div class="notes-card"><h4>⚖️ Polity + Governance Notes</h4><textarea id="note-polity" placeholder="Constitution articles, Fundamental Rights, DPSP, Parliament procedures, Governor powers, TN administration..."></textarea><button class="save-btn" onclick="saveNote('polity',this)">Save</button></div>
+  <div class="notes-card"><h4>📰 Current Affairs Summary (Weekly)</h4><textarea id="note-ca" placeholder="Weekly summary of important news — TN Govt, Central Govt, International, Economy, Science, Awards, Appointments..."></textarea><button class="save-btn" onclick="saveNote('ca',this)">Save</button></div>
+  <div class="notes-card"><h4>✍️ Answer Writing Drafts</h4><textarea id="note-answers" style="min-height:150px" placeholder="Practice answers — write here, time yourself (15 min per answer), review structure..."></textarea><button class="save-btn" onclick="saveNote('answers',this)">Save</button></div>
+  <div class="notes-card"><h4>❓ Doubts to Clarify</h4><textarea id="note-doubts" placeholder="Topics you're unsure about, confusing facts to verify, PYQ questions you got wrong..."></textarea><button class="save-btn" onclick="saveNote('doubts',this)">Save</button></div>
+</div>
+
+<!-- ══ RESOURCES ══ -->
+<div id="panel-resources" class="panel">
+  <div class="topbar"><h1>📚 Best Resources to Clear TNPSC Group 1</h1><div class="meta">Every link below is clickable · Free + Paid · Curated for Group 1 specifically</div></div>
+
+  <!-- RESOURCE FILTER TABS -->
+  <div class="tab-row" style="margin-bottom:18px">
+    <div class="tab active" onclick="filterRes('all',this)">🔍 All Resources</div>
+    <div class="tab" onclick="filterRes('free',this)">✅ Free Only</div>
+    <div class="tab" onclick="filterRes('youtube',this)">▶️ YouTube</div>
+    <div class="tab" onclick="filterRes('app',this)">📱 Apps</div>
+    <div class="tab" onclick="filterRes('book',this)">📚 Books</div>
+    <div class="tab" onclick="filterRes('website',this)">🌐 Websites</div>
+    <div class="tab" onclick="filterRes('pyq',this)">📄 PYQ Papers</div>
+  </div>
+
+  <!-- QUICK LINKS BANNER -->
+  <div style="background:linear-gradient(135deg,rgba(201,168,76,.12),rgba(46,158,91,.08));border:1px solid rgba(201,168,76,.25);border-radius:10px;padding:14px 18px;margin-bottom:20px;">
+    <div style="font-size:10px;font-weight:800;letter-spacing:2px;color:var(--gold);margin-bottom:10px;text-transform:uppercase">⚡ Quick Access — Most Important Links</div>
+    <div style="display:flex;flex-wrap:wrap;gap:8px;">
+      <a href="https://tnpsc.gov.in/English/previous-questions.html" target="_blank" class="qlink" style="--qc:var(--gold)">🏛️ Official PYQ Papers</a>
+      <a href="https://tnpsc.gov.in" target="_blank" class="qlink" style="--qc:var(--green)">📋 TNPSC Official Site</a>
+      <a href="https://www.youtube.com/@OfficersIASAcademy" target="_blank" class="qlink" style="--qc:var(--red)">▶️ Officers IAS YouTube</a>
+      <a href="https://www.youtube.com/@WinmeenELearning" target="_blank" class="qlink" style="--qc:var(--red)">▶️ Winmeen YouTube</a>
+      <a href="https://ncert.nic.in/textbook.php" target="_blank" class="qlink" style="--qc:var(--blue)">📘 NCERT Free PDFs</a>
+      <a href="https://tnschools.gov.in" target="_blank" class="qlink" style="--qc:var(--saffron)">📗 Samacheer PDFs</a>
+      <a href="https://testbook.com/tnpsc-group-1/previous-year-papers" target="_blank" class="qlink" style="--qc:var(--purple)">📝 Testbook PYQ</a>
+      <a href="https://pib.gov.in" target="_blank" class="qlink" style="--qc:var(--teal)">📰 PIB (Govt News)</a>
+    </div>
+  </div>
+
+  <!-- SECTION 1: FREE YOUTUBE CHANNELS -->
+  <div class="res-section res-cat-youtube res-cat-free res-cat-all">
+    <div class="res-section-title" style="color:#FF0000">▶️ Best FREE YouTube Channels — Watch Daily</div>
+    <div class="res-grid" style="grid-template-columns:repeat(auto-fill,minmax(240px,1fr))">
+
+      <div class="res-card" style="--acc:#FF0000">
+        <div class="rc-tag" style="color:#FF0000">🥇 #1 RANKED</div>
+        <div class="rc-name">Officers IAS Academy</div>
+        <div class="rc-desc">Run by Ex-IAS officer Israel Jebasingh. BEST channel for Group 1. Daily current affairs classes, subject videos, strategy sessions, topper talks. Tamil + English.</div>
+        <a href="https://www.youtube.com/@OfficersIASAcademy" target="_blank" class="res-link">▶️ youtube.com/@OfficersIASAcademy</a>
+        <div class="free-tag" style="background:rgba(46,158,91,.15);color:var(--green)">100% FREE</div>
+      </div>
+
+      <div class="res-card" style="--acc:#FF0000">
+        <div class="rc-tag" style="color:#FF0000">🥈 #2 RANKED</div>
+        <div class="rc-name">Winmeen E-Learning</div>
+        <div class="rc-desc">Most popular TNPSC YouTube channel. Covers all subjects comprehensively in Tamil. TN History, Polity, Geography, Science, Current Affairs — excellent quality. 1M+ subscribers.</div>
+        <a href="https://www.youtube.com/@WinmeenELearning" target="_blank" class="res-link">▶️ youtube.com/@WinmeenELearning</a>
+        <div class="free-tag" style="background:rgba(46,158,91,.15);color:var(--green)">100% FREE</div>
+      </div>
+
+      <div class="res-card" style="--acc:#FF0000">
+        <div class="rc-tag" style="color:#FF0000">🥉 #3 RANKED</div>
+        <div class="rc-name">Suresh IAS Academy</div>
+        <div class="rc-desc">Excellent Tamil medium TNPSC channel. Deep subject coverage, PYQ explanations, answer writing techniques for Mains. Dedicated Group 1 playlist available.</div>
+        <a href="https://www.youtube.com/@SureshIASAcademy" target="_blank" class="res-link">▶️ youtube.com/@SureshIASAcademy</a>
+        <div class="free-tag" style="background:rgba(46,158,91,.15);color:var(--green)">100% FREE</div>
+      </div>
+
+      <div class="res-card" style="--acc:#FF4444">
+        <div class="rc-tag" style="color:#FF4444">Tamil Nadu History</div>
+        <div class="rc-name">Silambu IAS Academy</div>
+        <div class="rc-desc">Specializes in TN History, Sangam Age, Social Movements, Cultural Heritage. Extremely detailed videos on topics that appear repeatedly in Group 1 exam. Highly recommended.</div>
+        <a href="https://www.youtube.com/@SilambuIASAcademy" target="_blank" class="res-link">▶️ youtube.com/@SilambuIASAcademy</a>
+        <div class="free-tag" style="background:rgba(46,158,91,.15);color:var(--green)">100% FREE</div>
+      </div>
+
+      <div class="res-card" style="--acc:#FF4444">
+        <div class="rc-tag" style="color:#FF4444">Current Affairs</div>
+        <div class="rc-name">GK Empire — TNPSC</div>
+        <div class="rc-desc">Daily current affairs videos specifically filtered for TNPSC relevance. Quick 15–20 min videos every morning. Perfect to watch while getting ready or commuting.</div>
+        <a href="https://www.youtube.com/@GKEmpireTNPSC" target="_blank" class="res-link">▶️ youtube.com/@GKEmpireTNPSC</a>
+        <div class="free-tag" style="background:rgba(46,158,91,.15);color:var(--green)">100% FREE</div>
+      </div>
+
+      <div class="res-card" style="--acc:#FF4444">
+        <div class="rc-tag" style="color:#FF4444">Polity + Economy</div>
+        <div class="rc-name">Radian IAS Academy</div>
+        <div class="rc-desc">Excellent for Polity and Economy subjects. Clear explanations of Constitution, Parliament, RBI, fiscal policy. Both Tamil and English medium videos available.</div>
+        <a href="https://www.youtube.com/@RadianIASAcademy" target="_blank" class="res-link">▶️ youtube.com/@RadianIASAcademy</a>
+        <div class="free-tag" style="background:rgba(46,158,91,.15);color:var(--green)">100% FREE</div>
+      </div>
+
+      <div class="res-card" style="--acc:#FF4444">
+        <div class="rc-tag" style="color:#FF4444">Science + Bio</div>
+        <div class="rc-name">Krishoba Academy</div>
+        <div class="rc-desc">Best for General Science topics. Physics, Chemistry, Biology explained simply with exam focus. TN Samacheer-based teaching. Great for science questions in Prelims.</div>
+        <a href="https://www.youtube.com/@KrishobaAcademy" target="_blank" class="res-link">▶️ youtube.com/@KrishobaAcademy</a>
+        <div class="free-tag" style="background:rgba(46,158,91,.15);color:var(--green)">100% FREE</div>
+      </div>
+
+      <div class="res-card" style="--acc:#FF4444">
+        <div class="rc-tag" style="color:#FF4444">Mains Answer Writing</div>
+        <div class="rc-name">TNPSC Academy</div>
+        <div class="rc-desc">tnpsc.academy — Dedicated channel for Mains preparation. Answer writing demonstrations, model answers, Mains strategy. Website also has free video classes.</div>
+        <a href="https://www.youtube.com/@TNPSCAcademy" target="_blank" class="res-link">▶️ youtube.com/@TNPSCAcademy</a>
+        <div class="free-tag" style="background:rgba(46,158,91,.15);color:var(--green)">FREE</div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- SECTION 2: FREE WEBSITES + APPS -->
+  <div class="res-section res-cat-app res-cat-website res-cat-free res-cat-all">
+    <div class="res-section-title" style="color:var(--teal)">📱 Best FREE Websites + Apps — Use Daily</div>
+    <div class="res-grid" style="grid-template-columns:repeat(auto-fill,minmax(240px,1fr))">
+
+      <div class="res-card" style="--acc:var(--gold)">
+        <div class="rc-tag" style="color:var(--gold)">🥇 OFFICIAL · Must Use</div>
+        <div class="rc-name">TNPSC Official Website</div>
+        <div class="rc-desc">Download official syllabus, PYQ papers, answer keys, notifications. First thing to bookmark. Never miss any official update. All PYQs from 2009 to 2024 available free.</div>
+        <a href="https://tnpsc.gov.in" target="_blank" class="res-link">🌐 tnpsc.gov.in</a>
+        <a href="https://tnpsc.gov.in/English/previous-questions.html" target="_blank" class="res-link" style="margin-top:4px">📄 PYQ Direct Link</a>
+        <div class="free-tag" style="background:rgba(46,158,91,.15);color:var(--green)">100% FREE</div>
+      </div>
+
+      <div class="res-card" style="--acc:var(--saffron)">
+        <div class="rc-tag" style="color:var(--saffron)">📗 Samacheer PDFs</div>
+        <div class="rc-name">TN Textbook Corporation — Free PDFs</div>
+        <div class="rc-desc">Download ALL Samacheer Kalvi books (Std 6–12) as FREE PDF. Old syllabus + New syllabus both available. Most important free resource — 40–50% questions from here.</div>
+        <a href="https://tnschools.gov.in" target="_blank" class="res-link">🌐 tnschools.gov.in</a>
+        <div class="free-tag" style="background:rgba(46,158,91,.15);color:var(--green)">100% FREE PDFs</div>
+      </div>
+
+      <div class="res-card" style="--acc:var(--blue)">
+        <div class="rc-tag" style="color:var(--blue)">📘 NCERT Books</div>
+        <div class="rc-name">NCERT Official — Free PDF Download</div>
+        <div class="rc-desc">Download NCERT History, Geography, Polity, Economy (Std 6–12) as free PDFs. Essential for Indian History, Geography and Economy basics. Pairs perfectly with Samacheer.</div>
+        <a href="https://ncert.nic.in/textbook.php" target="_blank" class="res-link">🌐 ncert.nic.in/textbook.php</a>
+        <div class="free-tag" style="background:rgba(46,158,91,.15);color:var(--green)">100% FREE</div>
+      </div>
+
+      <div class="res-card" style="--acc:var(--teal)">
+        <div class="rc-tag" style="color:var(--teal)">📰 Govt News Source</div>
+        <div class="rc-name">PIB — Press Information Bureau</div>
+        <div class="rc-desc">Official Government of India press releases. Best source for central govt schemes, policies, data. Read daily — directly from source, no fake news. Essential for Mains answers.</div>
+        <a href="https://pib.gov.in" target="_blank" class="res-link">🌐 pib.gov.in</a>
+        <a href="https://pib.gov.in/indexd.aspx" target="_blank" class="res-link" style="margin-top:4px">📰 Daily Releases</a>
+        <div class="free-tag" style="background:rgba(46,158,91,.15);color:var(--green)">100% FREE</div>
+      </div>
+
+      <div class="res-card" style="--acc:var(--green)">
+        <div class="rc-tag" style="color:var(--green)">📱 Best App for TNPSC</div>
+        <div class="rc-name">Winmeen App</div>
+        <div class="rc-desc">Best free app for TNPSC preparation. 50,000+ questions, PYQ papers, daily CA quiz, subject-wise tests, Tamil medium support. Download on Android immediately.</div>
+        <a href="https://winmeen.com" target="_blank" class="res-link">🌐 winmeen.com</a>
+        <div class="free-tag" style="background:rgba(46,158,91,.15);color:var(--green)">FREE App (Android)</div>
+      </div>
+
+      <div class="res-card" style="--acc:var(--purple)">
+        <div class="rc-tag" style="color:var(--purple)">📝 Mock Tests Free</div>
+        <div class="rc-name">Testbook TNPSC</div>
+        <div class="rc-desc">Free mock tests, PYQ papers, live quizzes for TNPSC Group 1. Free tier gives access to 50+ tests. Subject-wise practice available. Best platform for free test series.</div>
+        <a href="https://testbook.com/tnpsc-group-1" target="_blank" class="res-link">🌐 testbook.com/tnpsc-group-1</a>
+        <a href="https://testbook.com/tnpsc-group-1/previous-year-papers" target="_blank" class="res-link" style="margin-top:4px">📄 Free PYQ Tests</a>
+        <div class="free-tag" style="background:rgba(46,158,91,.15);color:var(--green)">FREE + PAID</div>
+      </div>
+
+      <div class="res-card" style="--acc:var(--teal)">
+        <div class="rc-tag" style="color:var(--teal)">📊 Current Affairs</div>
+        <div class="rc-name">GKToday — Free Current Affairs</div>
+        <div class="rc-desc">Free daily current affairs with MCQ practice. Monthly PDF compilations. Organized by topic. Bookmark and visit every day after newspaper reading.</div>
+        <a href="https://www.gktoday.in/current-affairs" target="_blank" class="res-link">🌐 gktoday.in</a>
+        <div class="free-tag" style="background:rgba(46,158,91,.15);color:var(--green)">100% FREE</div>
+      </div>
+
+      <div class="res-card" style="--acc:var(--saffron)">
+        <div class="rc-tag" style="color:var(--saffron)">🏛️ TN Govt Data</div>
+        <div class="rc-name">TN Govt Career Services (Free Videos)</div>
+        <div class="rc-desc">Tamil Nadu Government's own free e-learning portal. Free videos, study materials, mock tests for TNPSC. Official source — use for TN-specific preparation.</div>
+        <a href="https://tamilnaducareerservices.tn.gov.in" target="_blank" class="res-link">🌐 tamilnaducareerservices.tn.gov.in</a>
+        <div class="free-tag" style="background:rgba(46,158,91,.15);color:var(--green)">100% FREE (Govt)</div>
+      </div>
+
+      <div class="res-card" style="--acc:var(--blue)">
+        <div class="rc-tag" style="color:var(--blue)">📰 Online Newspaper</div>
+        <div class="rc-name">The Hindu — Free Access Tips</div>
+        <div class="rc-desc">Read The Hindu free via: (1) Public library digital card, (2) Google News app shows some articles free, (3) Incognito mode resets paywall. Read at least Editorial + India sections daily.</div>
+        <a href="https://www.thehindu.com" target="_blank" class="res-link">🌐 thehindu.com</a>
+        <a href="https://epaper.thehindu.com" target="_blank" class="res-link" style="margin-top:4px">📄 e-Paper (Subscription)</a>
+        <div class="free-tag" style="background:rgba(210,153,34,.15);color:var(--warn)">PAID (Some Free)</div>
+      </div>
+
+      <div class="res-card" style="--acc:var(--green)">
+        <div class="rc-tag" style="color:var(--green)">📱 All-in-One App</div>
+        <div class="rc-name">Adda247 TNPSC</div>
+        <div class="rc-desc">Good free mock tests, daily quiz, PYQ with solutions. Free tier is useful. Tamil medium content available. Good competitor to Testbook for TNPSC practice.</div>
+        <a href="https://www.adda247.com/tnpsc/" target="_blank" class="res-link">🌐 adda247.com/tnpsc</a>
+        <div class="free-tag" style="background:rgba(46,158,91,.15);color:var(--green)">FREE + PAID</div>
+      </div>
+
+      <div class="res-card" style="--acc:var(--teal)">
+        <div class="rc-tag" style="color:var(--teal)">📰 TN Specific News</div>
+        <div class="rc-name">Dinamani Digital (Tamil)</div>
+        <div class="rc-desc">Best Tamil newspaper online. Free articles available. Focus on TN politics, government orders, local news. Important for TN-specific current affairs in Group 1.</div>
+        <a href="https://www.dinamani.com" target="_blank" class="res-link">🌐 dinamani.com</a>
+        <div class="free-tag" style="background:rgba(46,158,91,.15);color:var(--green)">Mostly FREE</div>
+      </div>
+
+      <div class="res-card" style="--acc:var(--red)">
+        <div class="rc-tag" style="color:var(--red)">📊 Economy + Budget</div>
+        <div class="rc-name">TN Economic Survey + Budget</div>
+        <div class="rc-desc">TN Government's annual Economic Survey and Budget documents. Free PDF download. Must read for TN Economy questions in Mains Paper 4 and Prelims.</div>
+        <a href="https://tn.gov.in/economic-survey" target="_blank" class="res-link">🌐 tn.gov.in/economic-survey</a>
+        <div class="free-tag" style="background:rgba(46,158,91,.15);color:var(--green)">100% FREE</div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- SECTION 3: PAID BOOKS -->
+  <div class="res-section res-cat-book res-cat-all">
+    <div class="res-section-title" style="color:var(--gold)">📚 Best Paid Books — Worth Every Rupee</div>
+    <div class="res-grid" style="grid-template-columns:repeat(auto-fill,minmax(240px,1fr))">
+
+      <div class="res-card" style="--acc:var(--gold)">
+        <div class="rc-tag" style="color:var(--gold)">🥇 Most Important</div>
+        <div class="rc-name">Samacheer Kalvi 6–12 (Old + New Syllabus)</div>
+        <div class="rc-desc">The single most important source. 40–50% of TNPSC questions come directly from these books. Buy physical copies or download free PDF from tnschools.gov.in.</div>
+        <a href="https://tnschools.gov.in" target="_blank" class="res-link">📥 Free PDF Download</a>
+        <div class="free-tag" style="background:rgba(46,158,91,.15);color:var(--green)">FREE PDF / Low Cost Print</div>
+      </div>
+
+      <div class="res-card" style="--acc:var(--blue)">
+        <div class="rc-tag" style="color:var(--blue)">Polity #1</div>
+        <div class="rc-name">Indian Polity — M. Laxmikanth (6th Ed.)</div>
+        <div class="rc-desc">The definitive book for Indian Polity. Every TNPSC Group 1 topper reads this. Constitution, Parliament, Judiciary, State Govt, Local Bodies — complete coverage.</div>
+        <a href="https://www.amazon.in/s?k=Indian+Polity+Laxmikanth" target="_blank" class="res-link">🛒 Buy on Amazon</a>
+        <div class="free-tag" style="background:rgba(210,153,34,.15);color:var(--warn)">₹600–₹800 (PAID)</div>
+      </div>
+
+      <div class="res-card" style="--acc:var(--saffron)">
+        <div class="rc-tag" style="color:var(--saffron)">Economy #1</div>
+        <div class="rc-name">Indian Economy — Ramesh Singh (16th Ed.)</div>
+        <div class="rc-desc">Best economy book. Simple language, very comprehensive. Five Year Plans, NITI Aayog, Banking, Inflation, Trade, TN economy insights. Must buy for Mains Paper 4.</div>
+        <a href="https://www.amazon.in/s?k=Indian+Economy+Ramesh+Singh" target="_blank" class="res-link">🛒 Buy on Amazon</a>
+        <div class="free-tag" style="background:rgba(210,153,34,.15);color:var(--warn)">₹750–₹900 (PAID)</div>
+      </div>
+
+      <div class="res-card" style="--acc:var(--green)">
+        <div class="rc-tag" style="color:var(--green)">History #1</div>
+        <div class="rc-name">Spectrum's Modern India — Rajiv Ahir</div>
+        <div class="rc-desc">Best book for Modern Indian History. Freedom struggle, 1857 revolt, Gandhi, Social Reform movements explained very clearly. Essential for Mains Paper 2.</div>
+        <a href="https://www.amazon.in/s?k=Spectrum+Modern+India+History" target="_blank" class="res-link">🛒 Buy on Amazon</a>
+        <div class="free-tag" style="background:rgba(210,153,34,.15);color:var(--warn)">₹450–₹600 (PAID)</div>
+      </div>
+
+      <div class="res-card" style="--acc:var(--saffron)">
+        <div class="rc-tag" style="color:var(--saffron)">TN Handbook #1</div>
+        <div class="rc-name">Shankar IAS — "Tamilnadu Ungal Kaiyil"</div>
+        <div class="rc-desc">THE most important TN-specific book. TN History, Culture, Geography, Economy, Government schemes — all in one. Updated every year. Cannot be skipped for Group 1.</div>
+        <a href="https://shankarIAS.com" target="_blank" class="res-link">🛒 shankarIAS.com</a>
+        <div class="free-tag" style="background:rgba(210,153,34,.15);color:var(--warn)">₹500–₹700 (Shankar IAS)</div>
+      </div>
+
+      <div class="res-card" style="--acc:var(--teal)">
+        <div class="rc-tag" style="color:var(--teal)">Science Quick Ref</div>
+        <div class="rc-name">Lucent's General Science</div>
+        <div class="rc-desc">Quick-reference science facts. All Physics, Chemistry, Biology facts organized for MCQ-style questions. Use alongside Samacheer for science revision.</div>
+        <a href="https://www.amazon.in/s?k=Lucent+General+Science" target="_blank" class="res-link">🛒 Buy on Amazon</a>
+        <div class="free-tag" style="background:rgba(210,153,34,.15);color:var(--warn)">₹250–₹350 (PAID)</div>
+      </div>
+
+      <div class="res-card" style="--acc:var(--purple)">
+        <div class="rc-tag" style="color:var(--purple)">Aptitude #1</div>
+        <div class="rc-name">Quantitative Aptitude — RS Aggarwal</div>
+        <div class="rc-desc">Best aptitude book. All topics: percentage, ratio, time-distance, number series, logical reasoning. Practice 30 problems daily. 25 aptitude questions in Prelims — don't lose them!</div>
+        <a href="https://www.amazon.in/s?k=RS+Aggarwal+Quantitative+Aptitude" target="_blank" class="res-link">🛒 Buy on Amazon</a>
+        <div class="free-tag" style="background:rgba(210,153,34,.15);color:var(--warn)">₹400–₹550 (PAID)</div>
+      </div>
+
+      <div class="res-card" style="--acc:var(--saffron)">
+        <div class="rc-tag" style="color:var(--saffron)">TN Culture</div>
+        <div class="rc-name">Asan Publications Unit 6 — Tamil Medium</div>
+        <div class="rc-desc">Best Tamil medium book for TN Culture, Social Movements, Heritage. Detailed coverage of Dravidian movement, Sangam culture, social reformers — essential for Mains.</div>
+        <a href="https://asanpublications.com" target="_blank" class="res-link">🛒 asanpublications.com</a>
+        <div class="free-tag" style="background:rgba(210,153,34,.15);color:var(--warn)">PAID (Asan Publications)</div>
+      </div>
+
+      <div class="res-card" style="--acc:var(--blue)">
+        <div class="rc-tag" style="color:var(--blue)">GK Quick Ref</div>
+        <div class="rc-name">Manorama Yearbook 2025</div>
+        <div class="rc-desc">Annual current affairs + static GK in one book. Country facts, India facts, sports, awards, appointments, science — all compiled annually. Excellent for last-minute revision.</div>
+        <a href="https://www.amazon.in/s?k=Manorama+Yearbook+2025" target="_blank" class="res-link">🛒 Buy on Amazon</a>
+        <div class="free-tag" style="background:rgba(210,153,34,.15);color:var(--warn)">₹300–₹400 (Annual)</div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- SECTION 4: PAID COACHING -->
+  <div class="res-section res-cat-all">
+    <div class="res-section-title" style="color:var(--teal)">🎓 Best Coaching — Offline + Online (Paid)</div>
+    <div class="res-grid" style="grid-template-columns:repeat(auto-fill,minmax(240px,1fr))">
+
+      <div class="res-card" style="--acc:var(--teal)">
+        <div class="rc-tag" style="color:var(--teal)">🥇 Best Coaching in TN</div>
+        <div class="rc-name">Shankar IAS Academy — Chennai</div>
+        <div class="rc-desc">The gold standard of TNPSC coaching. Excellent faculty, best study materials (Tamilnadu Ungal Kaiyil), regular test series, topper guidance. Both offline and online batches.</div>
+        <a href="https://shankarIAS.com" target="_blank" class="res-link">🌐 shankarIAS.com</a>
+        <div class="free-tag" style="background:rgba(210,153,34,.15);color:var(--warn)">PAID (₹30k–₹60k)</div>
+      </div>
+
+      <div class="res-card" style="--acc:var(--teal)">
+        <div class="rc-tag" style="color:var(--teal)">Most Popular</div>
+        <div class="rc-name">RACE Institute — Chennai</div>
+        <div class="rc-desc">Very popular TN coaching. Tamil medium friendly, good test series, strong alumni network. RACE test series specifically is highly recommended for Group 1 aspirants.</div>
+        <a href="https://raceinstitute.in" target="_blank" class="res-link">🌐 raceinstitute.in</a>
+        <div class="free-tag" style="background:rgba(210,153,34,.15);color:var(--warn)">PAID</div>
+      </div>
+
+      <div class="res-card" style="--acc:var(--teal)">
+        <div class="rc-tag" style="color:var(--teal)">Online Coaching</div>
+        <div class="rc-name">Officers IAS Academy — Online Batch</div>
+        <div class="rc-desc">Ex-IAS Israel Jebasingh's paid batch. Structured 6-month course, live classes, test series, Mains answer writing feedback. Best online option for Group 1. Also has free YouTube content.</div>
+        <a href="https://officersiasacademy.com" target="_blank" class="res-link">🌐 officersiasacademy.com</a>
+        <div class="free-tag" style="background:rgba(210,153,34,.15);color:var(--warn)">PAID (Online)</div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- SECTION 5: PYQ PAPERS WITH DIRECT LINKS -->
+  <div class="res-section res-cat-pyq res-cat-free res-cat-all">
+    <div class="res-section-title" style="color:var(--purple)">📄 Previous Year Question Papers — Direct Download Links</div>
+
+    <div style="background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:18px;margin-bottom:16px;">
+      <div style="font-size:11px;font-weight:800;color:var(--gold);margin-bottom:4px">⭐ Strategy: How to Use PYQ Papers</div>
+      <div style="font-size:11px;color:var(--muted);line-height:1.8">
+        1️⃣ Download all papers below · 2️⃣ First read, don't solve — understand pattern · 3️⃣ From Month 2, solve 1 full paper every Sunday (timed — exactly 3 hours) · 4️⃣ Analyze wrong answers topic-wise · 5️⃣ You will see repeated patterns — these become your high-priority topics · <strong style="color:var(--text)">Target: 160+/200 correct in Prelims</strong>
+      </div>
+    </div>
+
+    <!-- PYQ TABLE -->
+    <div style="background:var(--surface);border:1px solid var(--border);border-radius:10px;overflow:hidden;margin-bottom:16px;">
+      <div style="display:grid;grid-template-columns:80px 160px 1fr 1fr 110px;gap:8px;padding:10px 16px;background:var(--bg);border-bottom:1px solid var(--border);">
+        <span style="font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:2px;color:var(--muted)">YEAR</span>
+        <span style="font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:2px;color:var(--muted)">STAGE</span>
+        <span style="font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:2px;color:var(--muted)">DOWNLOAD LINK</span>
+        <span style="font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:2px;color:var(--muted)">KEY TOPICS IN THAT YEAR</span>
+        <span style="font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:2px;color:var(--muted)">DIFFICULTY</span>
+      </div>
+      <div id="pyq-table-body"></div>
+    </div>
+
+    <!-- WHERE TO FIND PYQ -->
+    <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:10px;margin-bottom:16px;">
+      <div class="res-card" style="--acc:var(--gold)">
+        <div class="rc-tag" style="color:var(--gold)">🏛️ Official Source</div>
+        <div class="rc-name">TNPSC Official PYQ Page</div>
+        <div class="rc-desc">Official answer keys and question papers from 2017 to 2024. Most authentic source. Free download. Always verify answer keys from here.</div>
+        <a href="https://tnpsc.gov.in/English/previous-questions.html" target="_blank" class="res-link">📥 Direct Link → PYQ Page</a>
+        <a href="https://tnpsc.gov.in/english/answerkeys.aspx" target="_blank" class="res-link" style="margin-top:4px">🔑 Answer Keys Page</a>
+        <div class="free-tag" style="background:rgba(46,158,91,.15);color:var(--green)">100% FREE · OFFICIAL</div>
+      </div>
+      <div class="res-card" style="--acc:var(--purple)">
+        <div class="rc-tag" style="color:var(--purple)">All Years (2009–2024)</div>
+        <div class="rc-name">Winmeen — All PYQ PDFs</div>
+        <div class="rc-desc">Winmeen has compiled ALL Group 1 PYQ papers from 2009 to 2024 — Prelims and Mains both. Organized year-wise. Free download. Best single source for all old papers.</div>
+        <a href="https://winmeen.com/tnpsc-group-1-previous-year-question-papers/" target="_blank" class="res-link">📥 All PYQ Papers (2009–2024)</a>
+        <div class="free-tag" style="background:rgba(46,158,91,.15);color:var(--green)">100% FREE</div>
+      </div>
+      <div class="res-card" style="--acc:var(--teal)">
+        <div class="rc-tag" style="color:var(--teal)">With Solutions</div>
+        <div class="rc-name">Testbook — PYQ with Explanations</div>
+        <div class="rc-desc">PYQ papers with detailed answer explanations. Free access available. Helps understand WHY the answer is correct, not just what is correct — better learning.</div>
+        <a href="https://testbook.com/tnpsc-group-1/previous-year-papers" target="_blank" class="res-link">📥 PYQ with Solutions</a>
+        <div class="free-tag" style="background:rgba(46,158,91,.15);color:var(--green)">FREE + PAID</div>
+      </div>
+      <div class="res-card" style="--acc:var(--blue)">
+        <div class="rc-tag" style="color:var(--blue)">Mains PYQ (2019–2024)</div>
+        <div class="rc-name">Adda247 — Mains PYQ Papers</div>
+        <div class="rc-desc">Mains question papers from 2019 to 2024 — GS Paper 1, 2, 3. With model answers and evaluation guidance. Important for understanding Mains question style.</div>
+        <a href="https://www.adda247.com/exams/tn/tnpsc-group-1-previous-year-papers/" target="_blank" class="res-link">📥 Mains PYQ Papers</a>
+        <div class="free-tag" style="background:rgba(46,158,91,.15);color:var(--green)">FREE</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SECTION 6: EXPECTED QUESTIONS 2025 -->
+  <div class="res-section res-cat-pyq res-cat-all">
+    <div class="res-section-title" style="color:var(--acc)">🎯 Expected High-Probability Questions for 2025 Exam</div>
+    <div style="background:var(--surface);border:1px solid var(--border);border-left:3px solid var(--acc);border-radius:10px;padding:14px 16px;margin-bottom:14px;font-size:11px;color:var(--muted);line-height:1.8">
+      ⚡ <strong style="color:var(--text)">How these are predicted:</strong> Analyzed last 8 years of Group 1 question patterns + current events 2024–25 + TN Government policy focus areas + UPSC pattern spillover + Topics that appear every alternate year. These are HIGH probability — study them first.
+    </div>
+    <div id="eq-tabs" class="tab-row" style="margin-bottom:12px">
+      <div class="tab active" onclick="switchEQTab(this,'eq-history')">📜 History + TN</div>
+      <div class="tab" onclick="switchEQTab(this,'eq-polity')">⚖️ Polity</div>
+      <div class="tab" onclick="switchEQTab(this,'eq-geo')">🗺️ Geography</div>
+      <div class="tab" onclick="switchEQTab(this,'eq-economy')">💰 Economy</div>
+      <div class="tab" onclick="switchEQTab(this,'eq-science')">🔬 Science</div>
+      <div class="tab" onclick="switchEQTab(this,'eq-ca')">📰 Current 2024–25</div>
+    </div>
+    <div id="eq-content"></div>
+  </div>
+
+  <!-- SECTION 7: TOPIC-WISE QUESTION FREQUENCY CHART -->
+  <div class="res-section res-cat-pyq res-cat-all">
+    <div class="res-section-title" style="color:var(--blue)">📊 Topic-Wise Question Frequency (Last 8 Years Analysis)</div>
+    <div style="background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:18px;">
+      <div style="font-size:10px;color:var(--muted);margin-bottom:14px;font-family:'JetBrains Mono',monospace">Based on analysis of 2017, 2018, 2019, 2021, 2022, 2023, 2024 Group 1 Prelims papers</div>
+      <div id="freq-chart"></div>
+    </div>
+  </div>
+
+</div>
+
+</div><!-- end main -->
+</div><!-- end layout -->
+
+<script>
+// ═══ CURRICULUM DATA ═══
+const C = {
+// HISTORY — TN
+'ph-w1':{ stage:'prelims', tasks:[
+  {day:'T-1', name:'Sangam Age — Sangam literature (Purananuru, Akananuru, Tolkappiyam), Three Kingdoms (Chera, Chola, Pandya), Sangam society and trade. Most important for TN questions', topic:'TN History', level:'High'},
+  {day:'T-2', name:'Chola Empire — Rajaraja Chola I, Rajendra Chola, Naval expeditions, Temple architecture (Brihadeeswara), Administration, Land revenue system (Ur, Nadu, Mandalam)', topic:'TN History', level:'High'},
+  {day:'T-3', name:'Pandya and Pallava Kingdoms — Pallava contribution to art (Mahabalipuram, Kanchi temples), Pandya rulers, Literature patronage, Shore temple, Rathas (rock-cut temples)', topic:'TN History', level:'High'},
+  {day:'T-4', name:'Social Reform Movements in TN — Periyar E.V. Ramasamy (Self-Respect Movement), B.R. Ambedkar impact in TN, Justice Party, Dravidian Movement history, DK and DMK formation', topic:'TN Social', level:'High'},
+  {day:'T-5', name:'TN in Freedom Struggle — V.O.C. (Chidambaram Pillai), Subramania Siva, Bharathiar (National poet), Rajaji (C. Rajagopalachari), Tirupur Kumaran, Veerapandiya Kattabomman', topic:'TN Freedom', level:'High'},
+  {day:'T-6', name:'TN Culture — Bharatanatyam, Carnatic music system, Classical Tamil literature (Kamba Ramayanam, Thirukkural ethics), Tamil Shaivism (Nayanmars), Vaishnavism (Alvars)', topic:'TN Culture', level:'Medium'},
+  {day:'T-7', name:'TN Political History Post-Independence — Formation of Tamil Nadu state (1969), Tamil language agitation, Anna (C.N. Annadurai) contribution, MGR era, Karunanidhi contribution, Jayalalithaa era', topic:'TN Political', level:'High'},
+  {day:'T-8', name:'TN Government Schemes — TANGEDCO, TASMAC, Amma Unavagam, Kalaignar Magalir Urimai Thogai, Chief Minister Breakfast scheme, Illam Thedi Kalvi, Free bus pass, Green TN Mission', topic:'TN Schemes', level:'High'},
+  {day:'T-9', name:'Tamil Language History — Proto-Tamil, Old Tamil, Middle Tamil, Modern Tamil, Tamil classical status, UNESCO recognition, Tamil diaspora, Global Tamil conferences', topic:'Tamil Language', level:'Medium'},
+  {day:'T-10', name:'TN Districts and Administration — 38 districts, District Collector role, Revenue administration, Block panchayats, Urban Local Bodies, Chennai Metropolitan Area, Corporation vs Municipality', topic:'TN Admin', level:'Medium'},
+]},
+// HISTORY — ANCIENT
+'ph-w2':{ stage:'prelims', tasks:[
+  {day:'T-11', name:'Indus Valley Civilization — Sites (Mohenjodaro, Harappa, Lothal, Dholavira, Kalibangan), Town planning, Trade, Script, Decline theories. Note: Lothal in Gujarat had dockyard', topic:'Ancient India', level:'High'},
+  {day:'T-12', name:'Vedic Age — Early Vedic (Rig Veda, tribal society), Later Vedic (caste system, Mahajanapadas), Upanishads philosophy, Brahmanas and Aranyakas, 16 Mahajanapadas', topic:'Ancient India', level:'Medium'},
+  {day:'T-13', name:'Maurya Empire — Chandragupta Maurya, Chanakya (Arthashastra), Ashoka the Great, Dhamma policy, Rock Edicts, Decline of Mauryas, Kautilya\'s political theory', topic:'Ancient India', level:'High'},
+  {day:'T-14', name:'Buddhism and Jainism — Gautama Buddha (8 fold path, 4 noble truths), Mahavira and Jainism, Buddhist councils, Spread of Buddhism outside India, Hinayana vs Mahayana', topic:'Ancient India', level:'High'},
+  {day:'T-15', name:'Gupta Empire — Golden Age, Chandragupta II (Vikramaditya), Kalidasa, Aryabhata, Varahamihira, Fa-Hien visit, Administration, Art and Architecture', topic:'Ancient India', level:'Medium'},
+  {day:'T-16', name:'South Indian Kingdoms — Satavahanas, Chalukyas of Badami, Pallavas of Kanchi, Rashtrakutas, Contributions to art and literature, trade with Southeast Asia', topic:'Ancient India', level:'Medium'},
+  {day:'T-17', name:'Art and Architecture — Buddhist stupas (Sanchi), Cave temples (Ajanta, Ellora), Temple architecture styles (Nagara vs Dravidian), Sculptures, Numismatics', topic:'Ancient Culture', level:'Medium'},
+  {day:'T-18', name:'Economy and Society in Ancient India — Trade routes (Silk Road, maritime trade), Guild system (Shrenis), Caste system evolution, Women\'s status, Agricultural practices, Currency', topic:'Ancient India', level:'Low'},
+]},
+// HISTORY — MEDIEVAL
+'ph-w3':{ stage:'prelims', tasks:[
+  {day:'T-19', name:'Delhi Sultanate — Slave Dynasty (Qutb-ud-din Aibak, Iltutmish), Khilji Dynasty (Alauddin Khilji market reforms), Tughlaq Dynasty (Muhammad bin Tughlaq), Lodhi Dynasty', topic:'Medieval India', level:'High'},
+  {day:'T-20', name:'Mughal Empire — Babur (Panipat 1526), Humayun, Akbar (Din-i-Ilahi, Navratnas, Mansabdari), Jahangir, Shah Jahan (Taj Mahal), Aurangzeb (Decline reasons)', topic:'Medieval India', level:'High'},
+  {day:'T-21', name:'Vijayanagara Empire — Harihara and Bukka (founders), Krishnadevaraya (greatest ruler, Telugu literature), Administration, Battle of Talikota 1565, Economy and trade', topic:'Medieval India', level:'High'},
+  {day:'T-22', name:'Bhakti Movement — Kabir, Tukaram, Mirabai, Chaitanya, Ramananda, Guru Nanak (Sikhism foundation), Social equality message, Impact on caste system', topic:'Medieval Culture', level:'Medium'},
+  {day:'T-23', name:'Maratha Empire — Shivaji (Guerrilla warfare, Hindavi Swaraj, Administration), Battle of Kharda, Peshwa era, Third Battle of Panipat (1761), Maratha confederacy', topic:'Medieval India', level:'Medium'},
+  {day:'T-24', name:'Medieval Art and Architecture — Qutb Minar, Red Fort, Taj Mahal, Fatehpur Sikri, Indo-Islamic architecture, Mughal paintings, Music (Tansen), Literature', topic:'Medieval Culture', level:'Low'},
+  {day:'T-25', name:'European arrival in India — Portuguese (Vasco da Gama 1498), Dutch, British (EIC 1600), French. Carnatic Wars, Battle of Plassey 1757 — Key turning point', topic:'Medieval India', level:'High'},
+]},
+// HISTORY — MODERN
+'ph-w4':{ stage:'prelims', tasks:[
+  {day:'T-26', name:'British Conquest — Battle of Plassey 1757, Battle of Buxar 1764, Subsidiary Alliance (Wellesley), Doctrine of Lapse (Dalhousie), Land revenue systems (Permanent Settlement, Ryotwari, Mahalwari)', topic:'Modern India', level:'High'},
+  {day:'T-27', name:'1857 Revolt — Causes (Enfield cartridge, grievances), Key leaders (Mangal Pandey, Rani Lakshmibai, Nana Sahib, Bahadur Shah Zafar), Aftermath (Crown rule), Significance', topic:'Modern India', level:'High'},
+  {day:'T-28', name:'Indian National Congress — Formation 1885, Early moderates (Dadabhai Naoroji, Gopal Krishna Gokhale), Extremists (Bal-Pal-Lal), Partition of Bengal 1905, Swadeshi Movement', topic:'Modern India', level:'High'},
+  {day:'T-29', name:'Gandhi and National Movement — Non-Cooperation 1920, Civil Disobedience 1930 (Salt March/Dandi March), Quit India 1942, Communal Award, Round Table Conferences', topic:'Modern India', level:'High'},
+  {day:'T-30', name:'India\'s Independence — Mountbatten Plan, Partition and creation of Pakistan, Integration of princely states (Sardar Patel), Constituent Assembly, Constitution adoption (26 Jan 1950)', topic:'Modern India', level:'High'},
+  {day:'T-31', name:'Social Reform Movements — Raja Ram Mohan Roy (Brahmo Samaj), Dayanand Saraswati (Arya Samaj), Swami Vivekananda, Annie Besant, Jyotiba Phule, Dr. Ambedkar (Dalit movement)', topic:'Modern India', level:'High'},
+  {day:'T-32', name:'Post-Independence India — First General Election 1952, Jawaharlal Nehru era, Five Year Plans, Green Revolution, White Revolution, Emergency (1975–77), Economic Reforms 1991', topic:'Modern India', level:'Medium'},
+  {day:'T-33', name:'Indian National Army (INA) — Subhas Chandra Bose (Netaji), INA formation, Azad Hind Fauj, Singapore operations, INA trials and their political impact on British India', topic:'Modern India', level:'Medium'},
+]},
+// POLITY
+'pp-w1':{ stage:'prelims', tasks:[
+  {day:'P-1', name:'Indian Constitution — Making of Constitution (Constituent Assembly, Dr. Ambedkar as chairman of Drafting Committee), Preamble meaning (Sovereign, Socialist, Secular, Democratic, Republic), Salient features', topic:'Constitution', level:'High'},
+  {day:'P-2', name:'Fundamental Rights (Articles 12–35) — 6 Fundamental Rights, Right to Equality (Art 14–18), Right to Freedom (Art 19–22), Right against Exploitation (23–24), Religion, Education rights. Suspensions during emergency', topic:'Constitution', level:'High'},
+  {day:'P-3', name:'DPSP and Fundamental Duties — Directive Principles of State Policy (non-justiciable, socialist ideals), 11 Fundamental Duties (added by 42nd Amendment), Balance between Fundamental Rights and DPSP', topic:'Constitution', level:'High'},
+  {day:'P-4', name:'Parliament — Lok Sabha (545 seats, 5-year term), Rajya Sabha (245 seats, permanent body, 1/3 retire every 2 years), Legislative process, Money Bill vs Ordinary Bill, Budget process, Zero Hour, Question Hour', topic:'Parliament', level:'High'},
+  {day:'P-5', name:'President and Vice President — Election process, Powers (Executive, Legislative, Judicial, Emergency), Article 356 (President\'s Rule), Pocket Veto, Article 370 (historical), Veto powers', topic:'Constitution', level:'High'},
+  {day:'P-6', name:'Prime Minister and Council of Ministers — Collective responsibility, Individual responsibility, Role of PM, Cabinet committees, Article 75, 91st Amendment (15% cap on cabinet size)', topic:'Constitution', level:'Medium'},
+  {day:'P-7', name:'Judiciary — Supreme Court (Article 124–147), High Courts, District Courts, Judicial Review, Public Interest Litigation (PIL), Writs (Habeas Corpus, Mandamus, Certiorari, Prohibition, Quo Warranto)', topic:'Judiciary', level:'High'},
+  {day:'P-8', name:'Governor and State Government — Governor appointment, Powers in TN, CM and Council of Ministers at state level, State Legislature (TN has only Legislative Assembly, no Council), Relationship between Centre and State', topic:'State Govt', level:'High'},
+  {day:'P-9', name:'Centre-State Relations — Schedule 7 (Union List, State List, Concurrent List), Article 249, 250, 252, 253, Emergency provisions (352, 356, 360), Inter-State Council, Zonal Councils', topic:'Federalism', level:'High'},
+  {day:'P-10', name:'Constitutional Amendments — Important amendments: 42nd (Mini Constitution), 44th, 52nd (Anti-Defection), 61st (18-year voting age), 73rd (Panchayat Raj), 74th (Urban Local Bodies), 101st (GST)', topic:'Amendments', level:'High'},
+  {day:'P-11', name:'Panchayati Raj + Urban Local Bodies — 73rd and 74th Amendment, 3-tier Panchayat system in TN (District, Block, Village), Functions, Finance Commission, Women reservation (1/3), Municipal corporations', topic:'Local Govt', level:'High'},
+  {day:'P-12', name:'Constitutional Bodies — Election Commission (Chief Election Commissioner), CAG, UPSC, Finance Commission, National Commission for SC, ST, OBC, Human Rights Commission, RTI Act, Lokpal', topic:'Institutions', level:'Medium'},
+]},
+// GEOGRAPHY — INDIA
+'pg-w1':{ stage:'prelims', tasks:[
+  {day:'G-1', name:'Physical Geography — Location (8°N–37°N, 68°E–97°E), Physiographic divisions (Northern Mountains, Indo-Gangetic Plain, Peninsular Plateau, Coastal Plains, Islands), Deccan Plateau formation', topic:'Physical Geo', level:'High'},
+  {day:'G-2', name:'Mountains + Rivers — Himalayan ranges (Greater, Middle, Shivalik), Important peaks, Indian river systems — Indus, Ganga, Brahmaputra, Peninsular rivers (Krishna, Godavari, Kaveri, Mahanadi)', topic:'Physical Geo', level:'High'},
+  {day:'G-3', name:'Climate of India — Monsoon mechanism (SW and NE monsoon), Seasons (Hot weather, SW monsoon, Retreating monsoon, Winter), Tropical cyclones, El Niño effect on Indian monsoon', topic:'Climate', level:'High'},
+  {day:'G-4', name:'Soils of India — Types (Alluvial, Black/Regur, Red, Laterite, Desert, Mountain), Distribution, Crops suitable for each. Alluvial most fertile — Indo-Gangetic plain. Black soil — cotton (Deccan)', topic:'Soils', level:'High'},
+  {day:'G-5', name:'Natural Resources — Forest types (Tropical Evergreen, Deciduous, Mangrove), Wildlife sanctuaries and national parks, Mineral distribution (coal, iron ore, petroleum, mica, bauxite, manganese)', topic:'Resources', level:'Medium'},
+  {day:'G-6', name:'Agriculture in India — Green Revolution (Punjab, Haryana — wheat, rice), Cropping patterns (Kharif, Rabi, Zaid), Irrigation types, Major crops state-wise (tea-Assam, sugarcane-UP, cotton-Gujarat)', topic:'Agriculture', level:'High'},
+  {day:'G-7', name:'Population Geography — Census 2011 key data, Sex ratio, Literacy rate, Density, Most populated states, Least populated, Urban vs Rural population, Migration patterns, Demographic dividend', topic:'Population', level:'High'},
+  {day:'G-8', name:'Transportation and Communication — National Highways, Railways (zones, longest routes), Ports (major and minor), Airports, Inland waterways, Space communication (INSAT)', topic:'Transport', level:'Medium'},
+  {day:'G-9', name:'World Geography Basics — Continents and Oceans, Important straits and passes, Latitude/Longitude concepts, Time zones, Standard Meridian of India (82.5°E), International Date Line', topic:'World Geo', level:'Medium'},
+]},
+// GEOGRAPHY — TN
+'pg-w2':{ stage:'prelims', tasks:[
+  {day:'G-10', name:'TN Physical Features — Location (8°N–13°N), Boundaries (Karnataka, AP, Kerala, Puducherry, Sea), Eastern Ghats and Western Ghats in TN, Nilgiris, Palani Hills, Anamalai Hills (Anai Mudi)', topic:'TN Geo', level:'High'},
+  {day:'G-11', name:'TN Rivers — Kaveri (Cauvery, most important), Palar, Ponniyar, Vaigai, Tamirabarani, Cheyyar. Dams — Mettur Dam (Stanley Reservoir), Krishnagiri Dam, Bhavani Sagara. Kaveri water dispute', topic:'TN Rivers', level:'High'},
+  {day:'G-12', name:'TN Climate and Agriculture — Southwest and Northeast monsoon in TN (NE monsoon more important for TN — Oct-Dec), Paddy, Sugarcane, Banana, Coconut, Groundnut, Cotton cultivation in TN', topic:'TN Climate', level:'High'},
+  {day:'G-13', name:'TN Districts — 38 districts, recently formed districts, major cities (Chennai, Coimbatore, Madurai, Tiruchirappalli, Salem, Tirunelveli), District headquarters, Area and population', topic:'TN Admin', level:'High'},
+  {day:'G-14', name:'TN Economy Overview — GSDP, Key sectors (Manufacturing, IT, Agriculture, Textiles), Major industries (Chennai — automobile hub, Coimbatore — engineering, Tirupur — knitwear), SEZs', topic:'TN Economy', level:'High'},
+  {day:'G-15', name:'TN Wildlife and Tourism — Mudumalai (elephant sanctuary), Anamalai Tiger Reserve, Guindy National Park (Chennai), Point Calimere (flamingos), Vedanthangal bird sanctuary, Major temples and tourist places', topic:'TN Wildlife', level:'Medium'},
+  {day:'G-16', name:'TN Infrastructure — Chennai Port, Ennore Port (Kamarajar Port), Tuticorin Port, Chennai International Airport, Coimbatore Airport, State highways, Metro Rail, MRTS', topic:'TN Infra', level:'Low'},
+]},
+// GEOGRAPHY — ENVIRONMENT
+'pg-w3':{ stage:'prelims', tasks:[
+  {day:'E-1', name:'Ecology basics — Ecosystem types, Food chain and food web, Trophic levels, Energy flow (10% rule), Nutrient cycles (Carbon, Nitrogen, Water cycle), Biomes of the world', topic:'Ecology', level:'High'},
+  {day:'E-2', name:'Biodiversity — Types (Genetic, Species, Ecosystem), India as mega-biodiversity country, Biodiversity hotspots (India has Western Ghats + Eastern Himalayas), Endangered species, IUCN Red List', topic:'Biodiversity', level:'High'},
+  {day:'E-3', name:'Environmental Issues — Global warming and Climate change, Greenhouse gases (CO2, CH4, N2O), Ozone layer depletion (CFCs, Montreal Protocol), Acid rain, Ocean acidification', topic:'Environment', level:'High'},
+  {day:'E-4', name:'Environmental Laws and Conventions — Environment Protection Act 1986, Forest Conservation Act 1980, Wildlife Protection Act 1972, Paris Agreement, COP meetings, Ramsar Convention (wetlands), Convention on Biological Diversity', topic:'Env Laws', level:'High'},
+  {day:'E-5', name:'Pollution Types — Air pollution (NAAQ standards, AQI), Water pollution (BOD, river pollution), Soil pollution (heavy metals, pesticides), Noise pollution, Plastic pollution, E-waste', topic:'Pollution', level:'High'},
+  {day:'E-6', name:'Disaster Management — Types (Natural: earthquake, flood, cyclone, tsunami; Man-made), NDMA (National Disaster Management Authority), SDMA in TN, Early warning systems, Sendai Framework', topic:'Disaster Mgmt', level:'High'},
+  {day:'E-7', name:'Renewable Energy + Sustainable Development — Solar, Wind, Hydro, Bioenergy in India and TN, India\'s renewable energy targets, SDGs (17 Sustainable Development Goals), Green Economy, Carbon credits', topic:'Energy', level:'High'},
+]},
+// ECONOMY
+'pe-w1':{ stage:'prelims', tasks:[
+  {day:'Ec-1', name:'Indian Economy — Mixed economy model, Public sector, Private sector, FDI, GDP vs GNP vs NNP, Per capita income, HDI (Human Development Index), India\'s rank in economic indicators', topic:'Economy Basics', level:'High'},
+  {day:'Ec-2', name:'Planning in India — Planning Commission (1950–2014), Five Year Plans (key targets), NITI Aayog (2015 onwards) — role, Vision 2047, Atal Innovation Mission, Aspirational Districts Programme', topic:'Planning', level:'High'},
+  {day:'Ec-3', name:'Banking System — RBI functions (lender of last resort, monetary policy, repo rate, reverse repo rate, CRR, SLR, bank rate), Scheduled Banks, Nationalization of banks (1969, 1980), Pradhan Mantri Jan Dhan Yojana', topic:'Banking', level:'High'},
+  {day:'Ec-4', name:'Budget and Taxation — Union Budget structure, Revenue vs Capital expenditure, Fiscal deficit, Revenue deficit, GST (Goods and Services Tax) — council, rates, IGST/CGST/SGST, Direct vs Indirect taxes, Income tax slabs', topic:'Fiscal', level:'High'},
+  {day:'Ec-5', name:'Agriculture Economics — Land reforms in India, Minimum Support Price (MSP), APMC, PM Fasal Bima Yojana, Kisan Credit Card, e-NAM, Agricultural credit, Food Corporation of India (FCI)', topic:'Agri Economy', level:'High'},
+  {day:'Ec-6', name:'Industries and Trade — Industrial Policy Resolution, Make in India, MSME sector, Textile industry (important for TN), IT/ITES industry (TN contribution), Export-Import policy, Trade deficit', topic:'Industry', level:'High'},
+  {day:'Ec-7', name:'Poverty and Unemployment — Poverty line definition, SECC data, MGNREGA (employment guarantee), PM-KISAN, PM Awas Yojana, Skill India, Stand-up India, Types of unemployment', topic:'Poverty', level:'High'},
+  {day:'Ec-8', name:'Inflation and Monetary Policy — CPI vs WPI, Types of inflation, RBI\'s MPC (Monetary Policy Committee), Repo rate impact, Quantitative easing, Stagflation, Demand-pull vs Cost-push', topic:'Monetary', level:'High'},
+  {day:'Ec-9', name:'International Trade Organizations — WTO (World Trade Organization), IMF, World Bank, Asian Development Bank, BRICS, G20, India\'s foreign trade policy, Trade agreements (FTA), Current account deficit', topic:'International', level:'Medium'},
+  {day:'Ec-10', name:'TN Economy Specifics — TN GSDP and growth rate, Key industries (auto, IT, textile, leather), TN government budget, Major economic zones, Coimbatore ecosystem, Chennai as financial hub, Agriculture contribution', topic:'TN Economy', level:'High'},
+  {day:'Ec-11', name:'Recent Economic Schemes — PM Gati Shakti, National Infrastructure Pipeline, Production-linked Incentive (PLI) scheme, National Monetization Pipeline, Digital India, Startup India, One District One Product', topic:'Schemes', level:'High'},
+]},
+// SCIENCE — PHYSICS + CHEM
+'ps-w1':{ stage:'prelims', tasks:[
+  {day:'Sc-1', name:'Mechanics — Newton\'s Laws of Motion (inertia, F=ma, action-reaction), Gravitational force, Work-Energy theorem, Conservation of momentum, Simple machines (lever, pulley, inclined plane)', topic:'Physics', level:'High'},
+  {day:'Sc-2', name:'Electricity and Magnetism — Electric current (Ohm\'s law, V=IR), Series and parallel circuits, Electromagnetic induction (generator, transformer), AC vs DC, Electromagnetic spectrum (radio, infrared, UV, X-ray, gamma)', topic:'Physics', level:'High'},
+  {day:'Sc-3', name:'Light, Sound, Heat — Reflection, Refraction, Total internal reflection, Convex and concave mirrors/lenses, Sound waves (ultrasound, infrasound applications), Heat transfer (conduction, convection, radiation), Specific heat', topic:'Physics', level:'Medium'},
+  {day:'Sc-4', name:'Nuclear Physics and Modern Science — Radioactivity (alpha, beta, gamma), Nuclear fission and fusion, Atomic bomb vs Hydrogen bomb, Nuclear power plants in India, Laser applications, Fiber optics', topic:'Modern Physics', level:'Medium'},
+  {day:'Sc-5', name:'Elements and Periodic Table — Periodic table groups and periods, Important elements (Iron, Carbon, Oxygen, Nitrogen, Hydrogen, Gold, Silver), Metals vs Non-metals, Alloys (Steel, Bronze, Brass)', topic:'Chemistry', level:'High'},
+  {day:'Sc-6', name:'Acids, Bases, Salts — pH scale, Strong vs Weak acids, Neutralization, Common chemicals (HCl, H2SO4, NaOH, NaCl, Na2CO3), Indicators (litmus), Chemical reactions in everyday life', topic:'Chemistry', level:'High'},
+  {day:'Sc-7', name:'Carbon Chemistry (Organic) — Carbon and its compounds, Hydrocarbons (methane, ethane, ethylene, acetylene), Polymers (plastics, rubber, nylon), Petroleum products and their uses, Fertilizers and pesticides', topic:'Chemistry', level:'Medium'},
+  {day:'Sc-8', name:'Environmental Chemistry — Greenhouse gases (CO2, CH4), Ozone (O3) — good and bad ozone, Acid rain (H2SO4 + HNO3), Water treatment, Sewage treatment, Industrial effluents, Green chemistry', topic:'Env Chemistry', level:'Medium'},
+]},
+// SCIENCE — BIOLOGY
+'ps-w2':{ stage:'prelims', tasks:[
+  {day:'Bio-1', name:'Cell Biology — Plant cell vs Animal cell, Cell organelles (nucleus, mitochondria, chloroplast, ribosome, Golgi body, ER), Cell division (mitosis and meiosis), DNA and gene basics', topic:'Biology', level:'High'},
+  {day:'Bio-2', name:'Classification of Living Organisms — 5 Kingdom classification (Monera, Protista, Fungi, Plantae, Animalia), Binomial nomenclature, Important species classification, Viruses (not living — bacteria vs virus difference)', topic:'Biology', level:'High'},
+  {day:'Bio-3', name:'Plant Kingdom — Photosynthesis (light and dark reactions, chlorophyll), Transpiration, Seed germination, Plant reproduction (sexual and asexual), Economic importance of plants (medicinal, commercial)', topic:'Botany', level:'High'},
+  {day:'Bio-4', name:'Human Body Systems — Digestive system (organs and enzymes), Respiratory system (breathing mechanism), Circulatory system (heart, blood types, arteries vs veins), Excretory system (kidney, dialysis)', topic:'Human Body', level:'High'},
+  {day:'Bio-5', name:'Nervous and Endocrine Systems — Brain structure, Nervous system (CNS, PNS), Reflex action, Hormones (insulin, adrenaline, thyroxine), Endocrine glands and their disorders (diabetes, goiter)', topic:'Human Body', level:'High'},
+  {day:'Bio-6', name:'Human Diseases — Infectious diseases (bacteria: TB, cholera, typhoid; virus: dengue, COVID-19, rabies; parasite: malaria), Non-infectious (diabetes, cancer, hypertension), Vaccines and immunization', topic:'Health', level:'High'},
+  {day:'Bio-7', name:'Nutrition and Health — Vitamins (A, B complex, C, D, E, K) and deficiency diseases, Minerals (calcium, iron, iodine), Balanced diet, BMI, Malnutrition types (kwashiorkor, marasmus), Food adulteration', topic:'Nutrition', level:'High'},
+  {day:'Bio-8', name:'Genetics and Evolution — Mendel\'s laws (dominant and recessive), DNA structure (double helix — Watson and Crick), Genetic disorders (sickle cell anemia, Down syndrome, hemophilia), Darwin\'s theory of evolution', topic:'Genetics', level:'Medium'},
+]},
+// SCIENCE — TECH
+'ps-w3':{ stage:'prelims', tasks:[
+  {day:'T-1', name:'Space Technology — ISRO missions (Chandrayaan 1, 2, 3 — Vikram lander, Pragyan rover), Mangalyaan (Mars Orbiter Mission), PSLV vs GSLV, Aditya-L1 (Solar mission), OneWeb satellite launch services', topic:'Space', level:'High'},
+  {day:'T-2', name:'Defense Technology — Agni, Prithvi, BrahMos missiles, DRDO projects, INS Vikrant (first indigenous aircraft carrier), Tejas (indigenous fighter jet), Kaveri engine, Anti-satellite (ASAT) test', topic:'Defense', level:'High'},
+  {day:'T-3', name:'IT and Digital India — National Broadband Mission, BharatNet, DigiLocker, BHIM UPI, Aadhaar, 5G launch in India, Semiconductor industry, Artificial Intelligence Mission, Cybersecurity Act', topic:'IT', level:'High'},
+  {day:'T-4', name:'Biotechnology — GM Crops (Bt Cotton in India), Golden Rice, Gene editing (CRISPR-Cas9), Cloning, Insulin production through biotechnology, Bioremediation, Stem cells, India Bioeconomy Report', topic:'Biotech', level:'Medium'},
+  {day:'T-5', name:'Medical Technology — COVID-19 vaccines (Covaxin by Bharat Biotech, Covishield by SII), AIIMS expansion, Jan Arogya Yojana (Ayushman Bharat), Health Mission (NHM), Digital Health Mission, Telemedicine', topic:'Medical Tech', level:'High'},
+  {day:'T-6', name:'Energy Technology — Solar energy (PM KUSUM, One Sun One World One Grid), Wind energy (TN is top producer), Nuclear energy (Kudankulam in TN), Green Hydrogen Mission, Electric vehicles policy', topic:'Energy', level:'High'},
+  {day:'T-7', name:'Communication Technology — Mobile generations (2G to 5G), Satellite communication (INSAT, GSAT), Internet penetration in India, Social media regulation, Cybercrime and laws, OTT regulations', topic:'Communication', level:'Medium'},
+]},
+// APTITUDE
+'pa-w1':{ stage:'prelims', tasks:[
+  {day:'A-1', name:'Number System — Types of numbers (natural, whole, integers, rational, irrational), LCM and HCF, Prime numbers, Divisibility rules, Remainder theorem, BODMAS rule. Solve 20 problems daily', topic:'Maths', level:'High'},
+  {day:'A-2', name:'Percentage and Ratio — Percentage calculations, Percentage increase/decrease, Profit and Loss, Simple Interest and Compound Interest, Ratio and Proportion, Partnership problems. Most common in exam', topic:'Maths', level:'High'},
+  {day:'A-3', name:'Time, Speed and Distance — Speed-distance-time formulas, Train problems (relative speed), Boats and Streams, Pipes and Cisterns. Practice 15 problems each topic', topic:'Maths', level:'High'},
+  {day:'A-4', name:'Number Series and Pattern — Number series (missing term), Alphabet series, Coding-Decoding, Blood relations, Directions and Distance, Seating arrangement basics', topic:'Reasoning', level:'High'},
+  {day:'A-5', name:'Logical Reasoning — Syllogisms (All A are B type), Statements and Conclusions, Assumptions, Arguments. Practice Venn diagrams for syllogisms. 5 questions daily', topic:'Reasoning', level:'High'},
+  {day:'A-6', name:'Data Interpretation — Bar graphs, Pie charts, Line graphs, Tables. Read the question carefully. Practice DI with TNPSC previous year questions specifically', topic:'Data Interp', level:'High'},
+  {day:'A-7', name:'Average, Mean, Median, Mode — Simple average calculations, Weighted average, Statistical concepts (mean, median, mode, range, standard deviation basics)', topic:'Statistics', level:'Medium'},
+  {day:'A-8', name:'Geometry basics — Area and perimeter of shapes (square, rectangle, triangle, circle), Volume of 3D shapes (cylinder, cone, sphere, cube), Angles and lines (parallel, perpendicular)', topic:'Geometry', level:'Medium'},
+  {day:'A-9', name:'Clocks and Calendars — Clock problems (angle between hands), Calendar problems (day of the week), Leap year rules, Number of odd days. Common in TNPSC aptitude', topic:'Maths', level:'Medium'},
+  {day:'A-10', name:'Full Aptitude Mock — Solve 25 aptitude questions in 20 minutes exactly as in exam. Review wrong answers. Track your improvement. Target: 22+/25 in this section', topic:'Practice', level:'High'},
+]},
+// CURRENT AFFAIRS
+'pca-w1':{ stage:'prelims', tasks:[
+  {day:'CA-1', name:'TN Government News — TN Budget highlights, New welfare schemes, Cabinet decisions, Governor and CM news, TN Government awards and recognitions, Policy changes in TN', topic:'TN Current', level:'High'},
+  {day:'CA-2', name:'Central Government News — Union Budget highlights, New central schemes, Parliament sessions key bills passed, PM Modi announcements, Cabinet reshuffle, India-foreign country agreements', topic:'National', level:'High'},
+  {day:'CA-3', name:'International Affairs — UN Security Council, G20 summit decisions, India\'s foreign relations (neighbours, USA, Russia, China), International organizations (WHO, UNESCO, WTO, IMF)', topic:'International', level:'High'},
+  {day:'CA-4', name:'Economy Current Affairs — RBI policy decisions (repo rate changes), Stock market (Sensex, Nifty milestones), Union Budget key points, GST Council decisions, Trade data, Inflation data', topic:'Economy CA', level:'High'},
+  {day:'CA-5', name:'Science and Space News — ISRO launches (mission names, objectives), DRDO achievements, Medical breakthroughs, Climate change reports, New species discovered, Nobel Prizes in Science', topic:'Science CA', level:'High'},
+  {day:'CA-6', name:'Awards and Honours — National awards (Bharat Ratna, Padma awards), Literature (Jnanpith, Sahitya Akademi), Sports awards (Khel Ratna, Arjuna), International awards (Nobel, Booker, Pulitzer), TN state awards', topic:'Awards', level:'High'},
+  {day:'CA-7', name:'Sports Current Affairs — Olympic results, Commonwealth Games, ICC cricket rankings and results, Chess (TN excels — track closely), Athletics, Kabaddi (TN teams), Pro Kabbadi, FIFA World Cup', topic:'Sports', level:'Medium'},
+  {day:'CA-8', name:'Appointments — Who is who? President, VP, PM, Chief Justice of India, RBI Governor, SEBI Chairman, Army Chief, CEC, CAG, State Governor of TN, CM of all states', topic:'Appointments', level:'High'},
+  {day:'CA-9', name:'Environment and Climate — COP conferences and outcomes, Paris Agreement updates, India\'s NDC (Nationally Determined Contributions), Natural disasters, TN environment news, Tiger census, Forest cover report', topic:'Env CA', level:'High'},
+  {day:'CA-10', name:'Books, Authors and Culture — Recent books by Indian authors, Important biographies, Tamil books and authors, Upcoming films (National Award winners), Art and cultural events, UNESCO heritage additions', topic:'Culture CA', level:'Low'},
+]},
+// MAINS PAPER 1 — TAMIL
+'mp1-w1':{ stage:'mains', tasks:[
+  {day:'M1-1', name:'Tamil Grammar (Ilakkanam) — Ezhuttatikaram (letters), Sollatikaram (words), Porulatikaram (meaning), Sandhi (words joining rules), Purappeyar, Akappeyar. Read Tolkappiyam basics', topic:'Tamil Grammar', level:'High'},
+  {day:'M1-2', name:'Comprehension Passages — Read Tamil newspapers daily (Dinamani, Dinamalar). Practice comprehension passage questions — answer exactly what is asked, use formal Tamil', topic:'Comprehension', level:'High'},
+  {day:'M1-3', name:'Essay Writing in Tamil — Structure: Introduction, 3 main paragraphs, Conclusion. Practice topics: TN Development, Women empowerment, Digital India, Environmental protection, Tamil culture. Write 2 essays/week', topic:'Essay', level:'High'},
+  {day:'M1-4', name:'Letter Writing — Official letters (complaint, request, government), Informal letters. Format: Sender address, Date, Receiver address, Salutation, Body, Closing. Formal Tamil language required', topic:'Letter Writing', level:'High'},
+  {day:'M1-5', name:'Tamil Literature — Sangam literature (Tolkappiyam, 18 major and minor works), Bhakti period (Thevaram, Nalayira Divya Prabandham), Medieval (Kamba Ramayanam, Periya Puranam)', topic:'Literature', level:'Medium'},
+  {day:'M1-6', name:'Translation and Précis — English to Tamil translation (test translation ability), Tamil to English, Précis writing (summarize a long passage in 1/3 length), Preserve key points', topic:'Translation', level:'Medium'},
+  {day:'M1-7', name:'Tamil Vocabulary and Idioms — Common proverbs (pazhamozhi), Idioms (uvamai), Tamil synonyms and antonyms, Formal Tamil vs spoken Tamil differences. Practice weekly vocabulary building', topic:'Vocabulary', level:'Medium'},
+  {day:'M1-8', name:'Full Tamil Paper Mock — Practice 3-hour Tamil paper. Check: Can you write 800-word essay in formal Tamil? Can you answer comprehension accurately? Check grammar, spelling, punctuation', topic:'Mock', level:'High'},
+]},
+// MAINS PAPER 2 — GS I
+'mp2-w1':{ stage:'mains', tasks:[
+  {day:'M2-1', name:'Modern Indian History (Mains depth) — 1857 Revolt detailed analysis, Freedom struggle phases, Gandhi\'s role in detail, INC evolution, Important Acts (GOI Acts 1919, 1935), Partition of Bengal, Partition of India consequences', topic:'Modern History', level:'High'},
+  {day:'M2-2', name:'Indian Culture and Heritage — Art forms (Bharatanatyam, Kathak, Odissi), Music (Carnatic vs Hindustani), Architecture (Buddhist, Mughal, Rajput, South Indian temple styles), Painting traditions, UNESCO World Heritage in India', topic:'Culture', level:'High'},
+  {day:'M2-3', name:'Social Issues — India and Tamil Nadu — Poverty (causes, measurement, solutions), Unemployment types and solutions, Hunger Index, Child labour, Child marriage, Child abuse, POCSO Act, Mission Vatsalya', topic:'Social Issues', level:'High'},
+  {day:'M2-4', name:'Women Empowerment — Women in Indian Constitution (Art 14, 15, 16, 39), Gender equality, Domestic violence (PWDVA Act), Maternal mortality, Female foeticide, Self-Help Groups (SHGs) in TN, Successful women leaders of TN', topic:'Women', level:'High'},
+  {day:'M2-5', name:'SC/ST Issues and Social Justice — Reservation policy (constitutional basis), Atrocities Act, Dr. Ambedkar\'s contribution, Social harmony in TN, OBC commission, Creamy layer concept, TN reservation policy (69%)', topic:'Social Justice', level:'High'},
+  {day:'M2-6', name:'Education in India and TN — Right to Education Act (Art 21A), NEP 2020 highlights, Samagra Shiksha, Digital education, TN education achievements (high literacy compared to national average), Mid-day meal scheme (TN pioneered)', topic:'Education', level:'High'},
+  {day:'M2-7', name:'Health System in India and TN — NHM (National Health Mission), PMJAY (Ayushman Bharat), CM\'s Comprehensive Health Insurance (Kalaignar), AIIMS, COVID-19 lessons, TN model of primary health centers', topic:'Health', level:'Medium'},
+  {day:'M2-8', name:'Communalism, Secularism, Regionalism — India as secular state (Art 25–28), Communal harmony, Linguistic reorganization of states, TN state formation, Language issue (3-language formula debate)', topic:'Society', level:'Medium'},
+  {day:'M2-9', name:'Answer Writing Practice — Paper 2 type questions. Write detailed answers (200–250 words each) for: Impact of British rule on TN society, Contribution of social reformers, Status of women in TN', topic:'Practice', level:'High'},
+  {day:'M2-10', name:'General Aptitude in Mains Context — Mains Paper 2 also includes aptitude section. Practice data interpretation, logical reasoning with descriptive explanation of your reasoning process', topic:'Aptitude', level:'Medium'},
+]},
+// MAINS PAPER 3 — GS II
+'mp3-w1':{ stage:'mains', tasks:[
+  {day:'M3-1', name:'Indian Polity — Mains depth — Parliament procedures in detail, Money bill vs Financial bill vs Ordinary bill, Committees of Parliament, Speaker election, Budget in Parliament (Railway vs Union), Guillotine', topic:'Polity Mains', level:'High'},
+  {day:'M3-2', name:'Emerging Political Trends — Coalition politics in India, Electoral system (FPTP), Electoral reforms (NOTA, EVM controversy), Political parties and their ideologies, Role of media in democracy, Election Commission independence', topic:'Political Trends', level:'High'},
+  {day:'M3-3', name:'TN Administration — Governor\'s role in TN, Legislative Assembly functioning, TN Secretariat, District administration (Collector), Sub-Collector, Tahsildar, Village Administrative Officer (VAO) — administrative hierarchy', topic:'TN Admin', level:'High'},
+  {day:'M3-4', name:'Science and Technology for Development — How IT contributes to governance (e-governance, DigiLocker, DBT), Space technology for agriculture and disaster management, Biotechnology for food security, AI in governance', topic:'S&T Development', level:'High'},
+  {day:'M3-5', name:'Tamil Society — Deep Study — Dravidian culture characteristics, Caste and social hierarchy in TN historically, Dravidian movement\'s impact on society, Social mobility in TN, Inter-caste marriage promotion, Rationalism', topic:'TN Society', level:'High'},
+  {day:'M3-6', name:'TN Culture and Heritage — Tamil classical language status (UNESCO recognition), Pongal (national festival), TN temples (Meenakshi Amman, Brihadeeswarar, Ranganathaswamy), Therukoothu, Silambam, Karagattam', topic:'TN Culture', level:'High'},
+  {day:'M3-7', name:'Role of Civil Society — NGOs in Tamil Nadu, SHG movement (TN has strong SHGs), Right to Information Act impact, Media freedom, Judiciary\'s role in protecting rights, PIL success stories', topic:'Civil Society', level:'Medium'},
+  {day:'M3-8', name:'International Organizations and India — UN system (General Assembly, Security Council, ECOSOC), Specialized agencies (WHO, UNESCO, ILO, FAO), India\'s role in UN, BRICS, SCO, QUAD, India-US, India-Russia relations', topic:'International', level:'High'},
+  {day:'M3-9', name:'TN Society Issues — Farmer suicides, Cauvery water dispute (TN-Karnataka), North-South divide, Tamil diaspora, TN coastal fishermen issues with Sri Lanka, LTTE issue historical context', topic:'TN Issues', level:'High'},
+  {day:'M3-10', name:'Paper 3 Answer Writing — Practice: "Role of Panchayati Raj in TN development" (250 words), "How has IT changed TN governance?" (250 words), "Importance of Tamil culture in national integration" (250 words)', topic:'Practice', level:'High'},
+]},
+// MAINS PAPER 4 — GS III
+'mp4-w1':{ stage:'mains', tasks:[
+  {day:'M4-1', name:'Geography of India — Mains Depth — Physiographic divisions impact on economy and culture, River interlinking project, National Waterways, Drought prone vs flood prone zones, Resource mapping, Geographic Information System (GIS)', topic:'Geography Mains', level:'High'},
+  {day:'M4-2', name:'TN Geography Deep — Drought in TN districts, Floods (Chennai floods 2015 analysis and lessons), Soil erosion in Eastern Ghats, TN coastal erosion, Desertification in Ramanathapuram, Groundwater depletion', topic:'TN Geo Mains', level:'High'},
+  {day:'M4-3', name:'Environment — Mains Depth — Climate change impact on India specifically (monsoon disruption, sea level rise for TN coast), Biodiversity loss solutions, Wetland conservation, Forest rights Act, Green India Mission', topic:'Env Mains', level:'High'},
+  {day:'M4-4', name:'Biodiversity — Mains depth — Western Ghats biodiversity hotspot (TN portion), Tiger reserves in TN (Mudumalai, Anamalai, Kalakad-Mundanthurai, Sathyamangalam), Project Tiger, Project Elephant, Marine biodiversity', topic:'Biodiversity Mains', level:'High'},
+  {day:'M4-5', name:'Disaster Management — Mains depth — TN\'s disaster vulnerability (cyclones — Vardah, Gaja, Nivar, Mandous), TN State Disaster Management Plan, SDRF (State Disaster Response Fund), Community preparedness, Post-disaster rehabilitation', topic:'Disaster Mains', level:'High'},
+  {day:'M4-6', name:'Indian Economy — Mains Depth — Economic reforms 1991 (LPG — Liberalization, Privatization, Globalization), Disinvestment policy, PPP model, Infrastructure deficit, NITI Aayog vs Planning Commission comparison', topic:'Economy Mains', level:'High'},
+  {day:'M4-7', name:'Agriculture and Rural Development — Land reforms impact, MGNREGA effectiveness, PM-KISAN, Farmer Producer Organizations (FPO), Agri-tech startups, TN agriculture — paddy, banana, sugarcane sector issues and solutions', topic:'Agriculture Mains', level:'High'},
+  {day:'M4-8', name:'Global Economy Impact on India — WTO and India\'s position, Trade wars (US-China impact on India), Rupee depreciation, FDI trends, India\'s export basket, Global supply chain disruptions (COVID lessons)', topic:'Global Economy', level:'Medium'},
+  {day:'M4-9', name:'TN Economy — Detailed Analysis — GSDP composition, Manufacturing (automobile capital of India — Sriperumbudur Samsung, Ford was here), IT exports (Chennai second to Bengaluru), Textile (Tirupur), Leather (Chennai), TIDEL Park', topic:'TN Economy Mains', level:'High'},
+  {day:'M4-10', name:'Paper 4 Answer Writing — Practice: "Impact of climate change on TN agriculture" (250 words), "India\'s approach to environmental conservation vs development" (250 words), "TN economy — strengths and challenges" (250 words)', topic:'Practice', level:'High'},
+]},
+// MAINS — ANSWER WRITING
+'maw-w1':{ stage:'mains', tasks:[
+  {day:'AW-1', name:'Answer Structure — Learn the format: Introduction (2–3 sentences contextualizing the question), Body (3–4 paragraphs with subheadings if needed), Conclusion (2–3 sentences — way forward). Practice this structure every answer', topic:'Writing Skills', level:'High'},
+  {day:'AW-2', name:'Time Management — Each Mains paper = 3 hours. Plan: Reading 10 min, Answer 1 (30 min), Answer 2 (30 min), Answer 3 (30 min), Answer 4 (30 min), Answer 5 (30 min), Review 10 min. Practice this timing', topic:'Exam Strategy', level:'High'},
+  {day:'AW-3', name:'Linking TN-specific Points — Every answer must include Tamil Nadu examples. History question → TN examples. Economy question → TN data. Polity question → TN administration. This differentiates TNPSC from UPSC', topic:'TN Focus', level:'High'},
+  {day:'AW-4', name:'Using Data and Statistics — Memorize key data: TN literacy (80%+), TN sex ratio, India GDP growth rate, TN GSDP, Key scheme beneficiary numbers. Use data to strengthen answers — examiners notice it', topic:'Data Usage', level:'High'},
+  {day:'AW-5', name:'Answer Writing Practice — Social Issues — Write: "Role of Periyar in TN\'s social transformation" (250 words), "Impact of SHGs on rural women in TN" (200 words). Review using TNPSC model answers', topic:'Practice', level:'High'},
+  {day:'AW-6', name:'Answer Writing Practice — Economy — Write: "India\'s economic reforms 1991 — impact on TN" (250 words), "MGNREGA effectiveness in reducing rural poverty" (200 words)', topic:'Practice', level:'High'},
+  {day:'AW-7', name:'Answer Writing Practice — Polity + Governance — Write: "Panchayati Raj system impact on grassroots democracy in TN" (250 words), "RTI Act — tool for transparency" (200 words)', topic:'Practice', level:'High'},
+  {day:'AW-8', name:'Answer Writing Practice — Environment + Geography — Write: "Climate change impact on TN coastal communities" (250 words), "Western Ghats biodiversity and its conservation" (200 words)', topic:'Practice', level:'High'},
+  {day:'AW-9', name:'Get Feedback — Submit your practice answers to an online TNPSC community (Facebook groups, Telegram channels) or coaching institute. Read toppers\' answer scripts (available from Shankar IAS). Compare and improve', topic:'Feedback', level:'High'},
+  {day:'AW-10', name:'Full Mains Paper Mock — Sit for 3 hours straight. Attempt 5 full answers (1000+ words total). Time yourself strictly. This trains your stamina for the actual exam day', topic:'Mock', level:'High'},
+]},
+// INTERVIEW
+'int-intro':{ stage:'interview', tasks:[
+  {day:'I-1', name:'"Introduce yourself" — Prepare a 3-minute introduction in both Tamil and English: Full name, hometown, education, current work, why TNPSC Group 1, what you will do as Deputy Collector. Practice 20 times', topic:'Self Intro', level:'Must Know'},
+  {day:'I-2', name:'"Why do you want to become a Civil Servant?" — Honest, meaningful answer. Not "for salary" or "job security." Say: "To serve Tamil Nadu, implement welfare schemes directly, solve public problems at grassroots level"', topic:'Motivation', level:'Must Know'},
+  {day:'I-3', name:'"Tell me about your graduation subject" — Deeply know your degree subject. If your degree is related to software (BCA/BSc CS), expect questions on technology and governance, e-governance, Digital India', topic:'Education', level:'High'},
+  {day:'I-4', name:'"What are your strengths and weaknesses?" — Strength: "Problem-solving, technology knowledge, understanding of digital governance." Weakness: "I am still developing my understanding of rural agricultural issues — I am actively learning"', topic:'Self', level:'High'},
+  {day:'I-5', name:'"What do you know about your hometown and district?" — Know your home district deeply: population, major occupation, famous places, rivers, major industries, local issues, MLA, MP, Collector name', topic:'Local Knowledge', level:'Must Know'},
+  {day:'I-6', name:'"What are your hobbies?" — Relate your hobbies to civil service. If reading → "I read The Hindu daily which helps me stay updated." If sports → "I understand importance of sports in youth development"', topic:'Hobbies', level:'Medium'},
+  {day:'I-7', name:'"Why should we select you over others?" — "I have IT background + TNPSC knowledge combination. I can leverage technology to make administration more efficient and citizen-friendly. I understand both rural and urban TN issues"', topic:'Selection', level:'Must Know'},
+]},
+'int-tn':{ stage:'interview', tasks:[
+  {day:'TN-1', name:'Know your CM and key ministers — Current CM of TN, Deputy CM, Finance Minister, key Cabinet Ministers. Their roles and departments. Recent policy decisions by the government', topic:'TN Politics', level:'Must Know'},
+  {day:'TN-2', name:'TN Government Schemes deeply — Know at least 10 key schemes: Kalaignar Magalir Urimai Thogai, Illam Thedi Kalvi, MuChief Minister\'s Breakfast scheme, Green TN Mission, Naan Mudhalvan — purpose, beneficiaries, budget', topic:'TN Schemes', level:'Must Know'},
+  {day:'TN-3', name:'TN Economy Current — TN budget highlights, GSDP growth, Employment data, Key ongoing projects (Chennai metro phase 2, Coimbatore metro plans, Salem-Chennai highway), Tamil Nadu Industrial Policy', topic:'TN Economy', level:'Must Know'},
+  {day:'TN-4', name:'Major Issues in TN — Cauvery water dispute (timeline and current status), LTTE issue historical context, Jallikattu protest and its resolution, Fishermen issue with Sri Lanka, North-South water divide', topic:'TN Issues', level:'High'},
+  {day:'TN-5', name:'TN Social Indicators — Literacy rate (80%+), Sex ratio (1058, above national average), IMR (Infant Mortality Rate — TN does well), HDI ranking, Poverty rate, NFHS-5 data for TN', topic:'TN Social Data', level:'High'},
+  {day:'TN-6', name:'"What are the biggest challenges facing Tamil Nadu today?" — Answer: Water scarcity (Cauvery, groundwater), Climate change (coastal flooding, drought), Youth unemployment, Urban-rural inequality, MSME sector issues', topic:'TN Challenges', level:'Must Know'},
+  {day:'TN-7', name:'"As Deputy Collector of your home district, what will you do first?" — Research your home district\'s key issues. Plan answer: "First I will understand ground reality, then focus on [specific local issue], then implement [specific scheme]"', topic:'Administrative', level:'Must Know'},
+  {day:'TN-8', name:'Famous people from TN — Scientists (C.V. Raman, A.P.J. Abdul Kalam was TN origin — Rameswaram), Political leaders, Artists, Writers, Sports persons (Viswanathan Anand from Chennai), Nobel laureates connected to TN', topic:'TN Personalities', level:'Medium'},
+]},
+'int-admin':{ stage:'interview', tasks:[
+  {day:'A-1', name:'Administrative situation — "A village reports that PDS (ration shop) keeper is taking bribes. As Sub-Collector, what do you do?" — Answer: Immediate field visit, surprise inspection, FIR if evidence, alternative distribution, systemic reform', topic:'Administration', level:'Must Know'},
+  {day:'A-2', name:'"How will you use technology to improve administration in your district?" — IT background helps here! Say: "Online grievance portal, digitize land records, use GIS for resource mapping, WhatsApp groups with village heads, video call-based review meetings"', topic:'e-Governance', level:'High'},
+  {day:'A-3', name:'"A natural disaster (flood) hits your district. What are your first 72 hours actions?" — NDMA protocol, Rescue first, Relief camps, Food and water, Medical teams, Media management, Report to state, Request NDRF if needed', topic:'Disaster', level:'High'},
+  {day:'A-4', name:'"How do you maintain impartiality when political pressure is applied?" — "I will follow the law and government orders. I will document all communications. If illegal pressure is applied, I will report to my superior. My duty is to Constitution, not to party"', topic:'Ethics', level:'Must Know'},
+  {day:'A-5', name:'"Corruption is a major problem in India. What will you do about it in your department?" — Zero tolerance policy, Surprise inspections, Digitize all transactions (no cash), Whistleblower protection, Reward honest officers, Accountability measures', topic:'Ethics', level:'High'},
+  {day:'A-6', name:'Gender sensitivity — "Incidents of sexual harassment in your district are under-reported. What steps will you take?" — Awareness campaigns, women police stations, POCSO awareness, SHGs as reporting channels, sensitize police, fast-track courts', topic:'Gender', level:'High'},
+  {day:'A-7', name:'"What is your vision for Tamil Nadu in 2030?" — Prepare a well-thought answer: "TN as India\'s leading manufacturing hub, 100% literacy, zero open defecation, renewable energy 50%+ of electricity, bridging rural-urban digital divide"', topic:'Vision', level:'High'},
+]},
+'int-mock':{ stage:'interview', tasks:[
+  {day:'M-1', name:'Daily Mock Interview — Every day from Month 3, answer 3 interview questions out loud in front of mirror. Tamil and English both. Record yourself on phone twice a week. Watch back and improve', topic:'Practice', level:'Must Do'},
+  {day:'M-2', name:'Mock Interview with Family/Friends — Ask someone to ask you questions and observe: Do you hesitate? Do you say "umm" too much? Do you make eye contact? Is your Tamil formal? Body language check', topic:'Practice', level:'High'},
+  {day:'M-3', name:'Newspaper discussion practice — Every evening pick 1 news item from The Hindu. Explain it out loud in 2 minutes in English. Then explain it in 2 minutes in Tamil. This builds fluency and current affairs recall simultaneously', topic:'Communication', level:'High'},
+  {day:'M-4', name:'Group Discussion practice — Join TNPSC aspirant groups (offline or online). Participate in group discussions. Defend your point of view calmly. Listen and respond. Civil service is about discussion, not monologue', topic:'Group Discussion', level:'Medium'},
+  {day:'M-5', name:'Personality Development — Read biographies of great civil servants: Dr. A.P.J. Abdul Kalam, Sam Pitroda, E. Sreedharan. Understand what makes a great public servant. Their values: honesty, dedication, people-first thinking', topic:'Personality', level:'High'},
+  {day:'M-6', name:'Final Dress Rehearsal — 1 month before estimated interview, do a full formal mock interview: Formal dress, sit in a chair, face 3 people asking questions for 30 minutes. Exactly as real interview. This removes fear', topic:'Final Prep', level:'Must Do'},
+]},
+};
+
+// Section to stage mapping
+const secStage = {
+  'ph-w1':'prelims','ph-w2':'prelims','ph-w3':'prelims','ph-w4':'prelims',
+  'pp-w1':'prelims',
+  'pg-w1':'prelims','pg-w2':'prelims','pg-w3':'prelims',
+  'pe-w1':'prelims',
+  'ps-w1':'prelims','ps-w2':'prelims','ps-w3':'prelims',
+  'pa-w1':'prelims',
+  'pca-w1':'prelims',
+  'mp1-w1':'mains','mp2-w1':'mains','mp3-w1':'mains','mp4-w1':'mains','maw-w1':'mains',
+  'int-intro':'interview','int-tn':'interview','int-admin':'interview','int-mock':'interview',
+};
+
+const secNav = {
+  'ph-w1':'np-p-history','ph-w2':'np-p-history','ph-w3':'np-p-history','ph-w4':'np-p-history',
+  'pp-w1':'np-p-polity',
+  'pg-w1':'np-p-geography','pg-w2':'np-p-geography','pg-w3':'np-p-geography',
+  'pe-w1':'np-p-economy',
+  'ps-w1':'np-p-science','ps-w2':'np-p-science','ps-w3':'np-p-science',
+  'pa-w1':'np-p-aptitude',
+  'pca-w1':'np-p-ca',
+  'mp1-w1':'np-m-paper1',
+  'mp2-w1':'np-m-paper2',
+  'mp3-w1':'np-m-paper3',
+  'mp4-w1':'np-m-paper4',
+  'maw-w1':'np-m-answer',
+  'int-intro':'np-i-prep','int-tn':'np-i-prep','int-admin':'np-i-prep','int-mock':'np-i-prep',
+};
+
+const topicStyle = {
+  'TN History':{bg:'rgba(201,168,76,.15)',c:'#e5c76b'},
+  'TN Social':{bg:'rgba(201,168,76,.15)',c:'#e5c76b'},
+  'TN Freedom':{bg:'rgba(232,115,42,.15)',c:'#e8732a'},
+  'TN Culture':{bg:'rgba(201,168,76,.2)',c:'#c9a84c'},
+  'TN Political':{bg:'rgba(59,130,196,.15)',c:'#60a5e8'},
+  'TN Schemes':{bg:'rgba(46,158,91,.15)',c:'#3dbd70'},
+  'TN Admin':{bg:'rgba(59,130,196,.15)',c:'#60a5e8'},
+  'TN Economy':{bg:'rgba(232,115,42,.15)',c:'#e8732a'},
+  'TN Geo':{bg:'rgba(46,158,91,.15)',c:'#3dbd70'},
+  'TN Rivers':{bg:'rgba(46,158,91,.2)',c:'#3dbd70'},
+  'TN Climate':{bg:'rgba(13,148,136,.15)',c:'#2dd4bf'},
+  'TN Wildlife':{bg:'rgba(46,158,91,.2)',c:'#3dbd70'},
+  'TN Infra':{bg:'rgba(100,100,100,.2)',c:'#aaa'},
+  'TN Issues':{bg:'rgba(220,74,61,.15)',c:'#f87171'},
+  'TN Social Data':{bg:'rgba(201,168,76,.15)',c:'#e5c76b'},
+  'TN Challenges':{bg:'rgba(220,74,61,.15)',c:'#f87171'},
+  'TN Personalities':{bg:'rgba(201,168,76,.15)',c:'#e5c76b'},
+  'TN Economy Mains':{bg:'rgba(232,115,42,.2)',c:'#e8732a'},
+  'TN Geo Mains':{bg:'rgba(46,158,91,.2)',c:'#3dbd70'},
+  'Tamil Language':{bg:'rgba(201,168,76,.15)',c:'#e5c76b'},
+  'Tamil Grammar':{bg:'rgba(201,168,76,.2)',c:'#c9a84c'},
+  'Ancient India':{bg:'rgba(139,92,246,.15)',c:'#a78bfa'},
+  'Ancient Culture':{bg:'rgba(139,92,246,.2)',c:'#a78bfa'},
+  'Medieval India':{bg:'rgba(139,92,246,.2)',c:'#c4b5fd'},
+  'Medieval Culture':{bg:'rgba(139,92,246,.15)',c:'#a78bfa'},
+  'Modern India':{bg:'rgba(232,115,42,.15)',c:'#e8732a'},
+  'Constitution':{bg:'rgba(59,130,196,.15)',c:'#60a5e8'},
+  'Parliament':{bg:'rgba(59,130,196,.2)',c:'#60a5e8'},
+  'Judiciary':{bg:'rgba(59,130,196,.15)',c:'#60a5e8'},
+  'State Govt':{bg:'rgba(59,130,196,.15)',c:'#60a5e8'},
+  'Federalism':{bg:'rgba(59,130,196,.2)',c:'#60a5e8'},
+  'Amendments':{bg:'rgba(59,130,196,.15)',c:'#60a5e8'},
+  'Local Govt':{bg:'rgba(59,130,196,.2)',c:'#60a5e8'},
+  'Institutions':{bg:'rgba(59,130,196,.15)',c:'#60a5e8'},
+  'Physical Geo':{bg:'rgba(46,158,91,.15)',c:'#3dbd70'},
+  'Climate':{bg:'rgba(13,148,136,.15)',c:'#2dd4bf'},
+  'Soils':{bg:'rgba(46,158,91,.2)',c:'#3dbd70'},
+  'Resources':{bg:'rgba(46,158,91,.15)',c:'#3dbd70'},
+  'Agriculture':{bg:'rgba(46,158,91,.2)',c:'#3dbd70'},
+  'Population':{bg:'rgba(100,100,100,.2)',c:'#aaa'},
+  'Transport':{bg:'rgba(100,100,100,.2)',c:'#aaa'},
+  'World Geo':{bg:'rgba(46,158,91,.15)',c:'#3dbd70'},
+  'Ecology':{bg:'rgba(13,148,136,.15)',c:'#2dd4bf'},
+  'Biodiversity':{bg:'rgba(13,148,136,.2)',c:'#2dd4bf'},
+  'Biodiversity Mains':{bg:'rgba(13,148,136,.2)',c:'#2dd4bf'},
+  'Environment':{bg:'rgba(13,148,136,.15)',c:'#2dd4bf'},
+  'Env Laws':{bg:'rgba(13,148,136,.2)',c:'#2dd4bf'},
+  'Pollution':{bg:'rgba(220,74,61,.15)',c:'#f87171'},
+  'Disaster Mgmt':{bg:'rgba(220,74,61,.15)',c:'#f87171'},
+  'Disaster Mains':{bg:'rgba(220,74,61,.2)',c:'#f87171'},
+  'Energy':{bg:'rgba(232,115,42,.15)',c:'#e8732a'},
+  'Economy Basics':{bg:'rgba(232,115,42,.15)',c:'#e8732a'},
+  'Planning':{bg:'rgba(232,115,42,.15)',c:'#e8732a'},
+  'Banking':{bg:'rgba(232,115,42,.2)',c:'#e8732a'},
+  'Fiscal':{bg:'rgba(232,115,42,.15)',c:'#e8732a'},
+  'Agri Economy':{bg:'rgba(46,158,91,.15)',c:'#3dbd70'},
+  'Industry':{bg:'rgba(232,115,42,.15)',c:'#e8732a'},
+  'Poverty':{bg:'rgba(220,74,61,.15)',c:'#f87171'},
+  'Monetary':{bg:'rgba(232,115,42,.2)',c:'#e8732a'},
+  'International':{bg:'rgba(59,130,196,.15)',c:'#60a5e8'},
+  'Schemes':{bg:'rgba(46,158,91,.15)',c:'#3dbd70'},
+  'Physics':{bg:'rgba(13,148,136,.15)',c:'#2dd4bf'},
+  'Chemistry':{bg:'rgba(13,148,136,.2)',c:'#2dd4bf'},
+  'Modern Physics':{bg:'rgba(13,148,136,.15)',c:'#2dd4bf'},
+  'Env Chemistry':{bg:'rgba(13,148,136,.15)',c:'#2dd4bf'},
+  'Biology':{bg:'rgba(46,158,91,.15)',c:'#3dbd70'},
+  'Botany':{bg:'rgba(46,158,91,.2)',c:'#3dbd70'},
+  'Human Body':{bg:'rgba(46,158,91,.15)',c:'#3dbd70'},
+  'Health':{bg:'rgba(46,158,91,.2)',c:'#3dbd70'},
+  'Nutrition':{bg:'rgba(46,158,91,.15)',c:'#3dbd70'},
+  'Genetics':{bg:'rgba(139,92,246,.15)',c:'#a78bfa'},
+  'Space':{bg:'rgba(59,130,196,.2)',c:'#60a5e8'},
+  'Defense':{bg:'rgba(220,74,61,.15)',c:'#f87171'},
+  'IT':{bg:'rgba(59,130,196,.15)',c:'#60a5e8'},
+  'Biotech':{bg:'rgba(46,158,91,.2)',c:'#3dbd70'},
+  'Medical Tech':{bg:'rgba(46,158,91,.15)',c:'#3dbd70'},
+  'Communication':{bg:'rgba(100,100,100,.2)',c:'#aaa'},
+  'Maths':{bg:'rgba(139,92,246,.15)',c:'#a78bfa'},
+  'Reasoning':{bg:'rgba(139,92,246,.2)',c:'#c4b5fd'},
+  'Data Interp':{bg:'rgba(139,92,246,.15)',c:'#a78bfa'},
+  'Statistics':{bg:'rgba(139,92,246,.2)',c:'#a78bfa'},
+  'Geometry':{bg:'rgba(139,92,246,.15)',c:'#a78bfa'},
+  'Practice':{bg:'rgba(46,158,91,.15)',c:'#3dbd70'},
+  'TN Current':{bg:'rgba(220,74,61,.15)',c:'#f87171'},
+  'National':{bg:'rgba(220,74,61,.15)',c:'#f87171'},
+  'Economy CA':{bg:'rgba(232,115,42,.15)',c:'#e8732a'},
+  'Science CA':{bg:'rgba(13,148,136,.15)',c:'#2dd4bf'},
+  'Awards':{bg:'rgba(201,168,76,.15)',c:'#e5c76b'},
+  'Sports':{bg:'rgba(46,158,91,.15)',c:'#3dbd70'},
+  'Appointments':{bg:'rgba(201,168,76,.2)',c:'#c9a84c'},
+  'Env CA':{bg:'rgba(13,148,136,.15)',c:'#2dd4bf'},
+  'Culture CA':{bg:'rgba(201,168,76,.15)',c:'#e5c76b'},
+  'Comprehension':{bg:'rgba(201,168,76,.15)',c:'#e5c76b'},
+  'Essay':{bg:'rgba(201,168,76,.2)',c:'#c9a84c'},
+  'Letter Writing':{bg:'rgba(201,168,76,.15)',c:'#e5c76b'},
+  'Literature':{bg:'rgba(201,168,76,.2)',c:'#c9a84c'},
+  'Translation':{bg:'rgba(201,168,76,.15)',c:'#e5c76b'},
+  'Vocabulary':{bg:'rgba(201,168,76,.15)',c:'#e5c76b'},
+  'Mock':{bg:'rgba(220,74,61,.15)',c:'#f87171'},
+  'Modern History':{bg:'rgba(232,115,42,.15)',c:'#e8732a'},
+  'Culture':{bg:'rgba(201,168,76,.15)',c:'#e5c76b'},
+  'Social Issues':{bg:'rgba(220,74,61,.15)',c:'#f87171'},
+  'Women':{bg:'rgba(232,115,42,.15)',c:'#e8732a'},
+  'Social Justice':{bg:'rgba(59,130,196,.15)',c:'#60a5e8'},
+  'Education':{bg:'rgba(59,130,196,.2)',c:'#60a5e8'},
+  'Society':{bg:'rgba(100,100,100,.2)',c:'#aaa'},
+  'Aptitude':{bg:'rgba(139,92,246,.15)',c:'#a78bfa'},
+  'Polity Mains':{bg:'rgba(59,130,196,.15)',c:'#60a5e8'},
+  'Political Trends':{bg:'rgba(59,130,196,.2)',c:'#60a5e8'},
+  'S&T Development':{bg:'rgba(13,148,136,.15)',c:'#2dd4bf'},
+  'TN Society':{bg:'rgba(201,168,76,.15)',c:'#e5c76b'},
+  'Civil Society':{bg:'rgba(46,158,91,.15)',c:'#3dbd70'},
+  'Geography Mains':{bg:'rgba(46,158,91,.15)',c:'#3dbd70'},
+  'Env Mains':{bg:'rgba(13,148,136,.15)',c:'#2dd4bf'},
+  'Economy Mains':{bg:'rgba(232,115,42,.15)',c:'#e8732a'},
+  'Agriculture Mains':{bg:'rgba(46,158,91,.2)',c:'#3dbd70'},
+  'Global Economy':{bg:'rgba(59,130,196,.15)',c:'#60a5e8'},
+  'Writing Skills':{bg:'rgba(139,92,246,.15)',c:'#a78bfa'},
+  'Exam Strategy':{bg:'rgba(220,74,61,.15)',c:'#f87171'},
+  'TN Focus':{bg:'rgba(201,168,76,.15)',c:'#e5c76b'},
+  'Data Usage':{bg:'rgba(139,92,246,.15)',c:'#a78bfa'},
+  'Feedback':{bg:'rgba(100,100,100,.2)',c:'#aaa'},
+  'Self Intro':{bg:'rgba(139,92,246,.15)',c:'#a78bfa'},
+  'Motivation':{bg:'rgba(139,92,246,.2)',c:'#c4b5fd'},
+  'Local Knowledge':{bg:'rgba(201,168,76,.15)',c:'#e5c76b'},
+  'Hobbies':{bg:'rgba(100,100,100,.2)',c:'#aaa'},
+  'Selection':{bg:'rgba(46,158,91,.15)',c:'#3dbd70'},
+  'TN Politics':{bg:'rgba(220,74,61,.15)',c:'#f87171'},
+  'TN Schemes':{bg:'rgba(46,158,91,.15)',c:'#3dbd70'},
+  'Administration':{bg:'rgba(59,130,196,.15)',c:'#60a5e8'},
+  'e-Governance':{bg:'rgba(13,148,136,.15)',c:'#2dd4bf'},
+  'Disaster':{bg:'rgba(220,74,61,.15)',c:'#f87171'},
+  'Ethics':{bg:'rgba(232,115,42,.15)',c:'#e8732a'},
+  'Gender':{bg:'rgba(232,115,42,.2)',c:'#e8732a'},
+  'Vision':{bg:'rgba(46,158,91,.15)',c:'#3dbd70'},
+  'Self':{bg:'rgba(139,92,246,.15)',c:'#a78bfa'},
+  'Education (self)':{bg:'rgba(59,130,196,.15)',c:'#60a5e8'},
+  'Communication':{bg:'rgba(100,100,100,.2)',c:'#aaa'},
+  'Group Discussion':{bg:'rgba(139,92,246,.15)',c:'#a78bfa'},
+  'Personality':{bg:'rgba(201,168,76,.15)',c:'#e5c76b'},
+  'Final Prep':{bg:'rgba(220,74,61,.15)',c:'#f87171'},
+};
+
+const DAILY_CHECKS = [
+  {id:'d1', label:'🌅 Read The Hindu / Dinamani (45 min) — mark important news'},
+  {id:'d2', label:'📚 Study primary subject for the day (90 min) — no phone'},
+  {id:'d3', label:'📝 Write notes of what you studied (15 min) — in your own words'},
+  {id:'d4', label:'🔢 Solve 15 aptitude problems (20 min) — daily without skip'},
+  {id:'d5', label:'✍️ Write 1 practice answer for Mains (20 min) — from Month 2'},
+  {id:'d6', label:'📰 Log today\'s current affairs in tracker (10 min)'},
+  {id:'d7', label:'🗣️ Practice 2 interview questions out loud (15 min) — from Month 3'},
+  {id:'d8', label:'🔁 Revise yesterday\'s notes (10 min) — spaced repetition'},
+];
+
+function getS(){try{return JSON.parse(localStorage.getItem('tnpsc_v1')||'{}')}catch{return {}}}
+function setS(s){localStorage.setItem('tnpsc_v1',JSON.stringify(s))}
+
+function renderRows(wid){
+  const w=C[wid]; if(!w) return;
+  const ct=document.getElementById('rows-'+wid); if(!ct) return;
+  const s=getS(); ct.innerHTML='';
+  w.tasks.forEach((t,i)=>{
+    const key=wid+'_'+i, done=!!s[key];
+    const ts=topicStyle[t.topic]||{bg:'rgba(100,100,100,.2)',c:'#aaa'};
+    const lc=t.level==='High'||t.level==='Must Know'||t.level==='Must Do'?'#f78166':t.level==='Medium'?'#d29922':t.level==='Low'?'#6b8070':'#3dbd70';
+    const row=document.createElement('div');
+    row.className='trow'+(done?' done':'');
+    row.innerHTML=`<div class="tday">${t.day}</div><div class="tname">${t.name}</div><div><span class="ttopic" style="background:${ts.bg};color:${ts.c}">${t.topic}</span></div><div class="tlevel" style="color:${lc};font-size:9px">${t.level}</div><div class="chk-btn" onclick="toggle('${wid}',${i})"><div class="chkbox ${done?'on':''}" id="chk-${key}">${done?'✓':''}</div><span class="chk-lbl">${done?'Done':'Mark done'}</span></div>`;
+    ct.appendChild(row);
+  });
+  updateWP(wid);
+}
+
+function toggle(wid,i){
+  const key=wid+'_'+i, s=getS();
+  s[key]=!s[key];
+  s['streak_'+new Date().toDateString()]=true;
+  setS(s); renderRows(wid); updateAll(); buildStreak();
+}
+
+function updateWP(wid){
+  const w=C[wid]; if(!w) return;
+  const s=getS();
+  const d=w.tasks.filter((_,i)=>s[wid+'_'+i]).length;
+  const el=document.getElementById('wp-'+wid);
+  if(el) el.textContent=d+'/'+w.tasks.length;
+}
+
+function updateAll(){
+  const s=getS();
+  let total=0,done=0;
+  const stages={prelims:{t:0,d:0},mains:{t:0,d:0},interview:{t:0,d:0}};
+  const navDone={}, navTotal={};
+  Object.keys(C).forEach(wid=>{
+    const w=C[wid]; const st=secStage[wid]||'prelims';
+    const navId=secNav[wid];
+    w.tasks.forEach((_,i)=>{
+      total++; stages[st].t++;
+      if(navId){ navTotal[navId]=(navTotal[navId]||0)+1; }
+      if(s[wid+'_'+i]){ done++; stages[st].d++; if(navId) navDone[navId]=(navDone[navId]||0)+1; }
+    });
+  });
+  const pct=total?Math.round(done/total*100):0;
+  setText('st-total',total); setText('st-done',done); setText('st-rem',total-done); setText('st-pct',pct+'%'); setText('ov-pct',pct+'%');
+  setW('ov-bar',pct+'%');
+  ['prelims','mains','interview'].forEach(st=>{
+    const p=stages[st].t?Math.round(stages[st].d/stages[st].t*100):0;
+    setText('pct-'+st,p+'%'); setW('bar-'+st,p+'%');
+  });
+  // nav percentages
+  Object.keys(navTotal).forEach(navId=>{
+    const p=navTotal[navId]?Math.round((navDone[navId]||0)/navTotal[navId]*100):0;
+    setText(navId,p+'%');
+  });
+}
+
+function buildStreak(){
+  const s=getS(), today=new Date(); let streak=0;
+  const cal=document.getElementById('streak-cal'), sb=document.getElementById('sb-streak');
+  if(cal)cal.innerHTML=''; if(sb)sb.innerHTML='';
+  const days=[];
+  for(let i=29;i>=0;i--){const d=new Date(today);d.setDate(today.getDate()-i);days.push(d.toDateString());}
+  for(let i=days.length-1;i>=0;i--){if(s['streak_'+days[i]])streak++;else break;}
+  setText('st-streak',streak);
+  days.forEach((d,idx)=>{
+    const on=!!s['streak_'+d],it=idx===29;
+    if(cal){const e=document.createElement('div');e.className='sc-day'+(on?' on':'')+(it?' today':'');e.title=d;cal.appendChild(e);}
+    if(sb){const e=document.createElement('div');e.className='sdot'+(on?' on':'')+(it?' today':'');sb.appendChild(e);}
+  });
+}
+
+function setText(id,v){const e=document.getElementById(id);if(e)e.textContent=v;}
+function setW(id,v){const e=document.getElementById(id);if(e)e.style.width=v;}
+
+function showPanel(name,el){
+  document.querySelectorAll('.panel').forEach(p=>p.classList.remove('active'));
+  document.getElementById('panel-'+name).classList.add('active');
+  document.querySelectorAll('.nav-item').forEach(n=>n.classList.remove('active'));
+  if(el)el.classList.add('active');
+  document.querySelectorAll('#panel-'+name+' .week-section.visible').forEach(ws=>{
+    renderRows(ws.id);
+  });
+  if(name==='daily') renderDailyChecklist();
+  if(name==='ca-log') renderCA();
+  if(name==='mock-log') renderMockTests();
+}
+
+function switchTab(tabEl,wid){
+  const parent=tabEl.closest('.panel');
+  parent.querySelectorAll('.tab').forEach(t=>t.classList.remove('active')); tabEl.classList.add('active');
+  parent.querySelectorAll('.week-section').forEach(w=>w.classList.remove('visible'));
+  const ws=parent.querySelector('#'+wid);
+  if(ws){ws.classList.add('visible');renderRows(wid);}
+}
+
+function renderDailyChecklist(){
+  const ct=document.getElementById('daily-checklist-main'); if(!ct)return;
+  const s=getS(); const today=new Date().toDateString();
+  ct.innerHTML='';
+  DAILY_CHECKS.forEach(item=>{
+    const key='daily_'+today+'_'+item.id, done=!!s[key];
+    const div=document.createElement('div');
+    div.className='daily-check-item';
+    div.innerHTML=`<div class="dc-box ${done?'on':''}">${done?'✓':''}</div><span class="dc-lbl" style="${done?'text-decoration:line-through;color:var(--muted)':''}">${item.label}</span>`;
+    div.onclick=()=>{s[key]=!s[key];s['streak_'+today]=true;setS(s);renderDailyChecklist();buildStreak();};
+    ct.appendChild(div);
+  });
+}
+
+function resetDailyChecklist(){
+  const s=getS(),today=new Date().toDateString();
+  DAILY_CHECKS.forEach(item=>{delete s['daily_'+today+'_'+item.id];});
+  setS(s);renderDailyChecklist();
+}
+
+// Current Affairs
+function getCA(){try{return JSON.parse(localStorage.getItem('tnpsc_ca')||'[]')}catch{return []}}
+function setCA(d){localStorage.setItem('tnpsc_ca',JSON.stringify(d))}
+
+const catColors={'TN Govt':'#e5c76b','Central Govt':'#60a5e8','International':'#60a5e8','Economy':'#e8732a','Science':'#2dd4bf','Sports':'#3dbd70','Awards':'#e5c76b','Appointments':'#c9a84c','Environment':'#2dd4bf','Social':'#f87171'};
+
+function addCA(){
+  const hl=document.getElementById('ca-headline').value.trim();
+  if(!hl){alert('Enter headline');return;}
+  const items=getCA();
+  items.unshift({id:Date.now(),headline:hl,date:document.getElementById('ca-date').value||new Date().toLocaleDateString('en-IN'),category:document.getElementById('ca-category').value,detail:document.getElementById('ca-detail').value.trim()});
+  setCA(items);
+  document.getElementById('ca-headline').value='';
+  document.getElementById('ca-detail').value='';
+  renderCA();
+}
+
+function deleteCA(id){setCA(getCA().filter(i=>i.id!==id));renderCA();}
+
+function renderCA(){
+  const items=getCA();
+  const ct=document.getElementById('ca-list'); if(!ct)return;
+  // Stats
+  const sr=document.getElementById('ca-stats-row');
+  if(sr){
+    const cats=['TN Govt','Central Govt','International','Economy','Science'];
+    sr.innerHTML=cats.map(c=>`<div style="background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:10px;text-align:center"><div style="font-size:9px;color:var(--muted);font-family:'JetBrains Mono',monospace;margin-bottom:4px">${c}</div><div style="font-size:18px;font-weight:800;color:${catColors[c]||'#aaa'}">${items.filter(i=>i.category===c).length}</div></div>`).join('');
+  }
+  if(items.length===0){ct.innerHTML='<div style="padding:20px;text-align:center;color:var(--muted);font-size:12px;font-family:\'JetBrains Mono\',monospace">No entries yet. Log today\'s news!</div>';return;}
+  ct.innerHTML=items.map(item=>`
+    <div style="display:grid;grid-template-columns:90px 1fr 120px 90px;gap:8px;padding:10px 14px;border-bottom:1px solid var(--border);align-items:start;" onmouseover="this.style.background='var(--surface2)'" onmouseout="this.style.background=''">
+      <div style="font-size:10px;color:var(--muted);font-family:'JetBrains Mono',monospace">${item.date}</div>
+      <div><div style="font-size:11px;font-weight:600">${item.headline}</div>${item.detail?`<div style="font-size:10px;color:var(--muted);margin-top:3px">${item.detail}</div>`:''}</div>
+      <div><span style="background:rgba(${item.category==='TN Govt'?'201,168,76':'59,130,196'},.15);color:${catColors[item.category]||'#aaa'};padding:2px 7px;border-radius:4px;font-size:9px;font-weight:700">${item.category}</span></div>
+      <div><button onclick="deleteCA(${item.id})" style="background:rgba(220,74,61,.1);color:#f87171;border:1px solid rgba(220,74,61,.3);border-radius:4px;padding:3px 8px;font-size:10px;cursor:pointer">Delete</button></div>
+    </div>`).join('');
+}
+
+// Mock Tests
+function getMT(){try{return JSON.parse(localStorage.getItem('tnpsc_mt')||'[]')}catch{return []}}
+function setMT(d){localStorage.setItem('tnpsc_mt',JSON.stringify(d))}
+
+function addMockTest(){
+  const name=document.getElementById('mt-name').value.trim();
+  if(!name){alert('Enter test name');return;}
+  const tests=getMT();
+  tests.unshift({id:Date.now(),name,date:document.getElementById('mt-date').value||new Date().toLocaleDateString('en-IN'),score:document.getElementById('mt-score').value,correct:document.getElementById('mt-correct').value,wrong:document.getElementById('mt-wrong').value,weak:document.getElementById('mt-weak').value});
+  setMT(tests);
+  ['mt-name','mt-score','mt-correct','mt-wrong','mt-weak'].forEach(id=>document.getElementById(id).value='');
+  renderMockTests();
+}
+
+function renderMockTests(){
+  const tests=getMT();
+  const ct=document.getElementById('mock-list'); if(!ct)return;
+  if(tests.length===0){ct.innerHTML='<div style="padding:20px;text-align:center;color:var(--muted);font-size:12px;font-family:\'JetBrains Mono\',monospace">No tests logged yet.</div>';return;}
+  ct.innerHTML=tests.map(t=>{
+    const score=parseInt(t.score)||0, target=parseInt(t.correct)>=160;
+    return`<div class="mock-row">
+      <div style="font-size:11px;font-weight:600">${t.name}</div>
+      <div style="font-size:13px;font-weight:800;color:${target?'var(--green)':'var(--warn)'}">${t.score}</div>
+      <div style="font-size:11px;color:var(--green)">${t.correct||'—'}</div>
+      <div style="font-size:11px;color:var(--red)">${t.wrong||'—'}</div>
+      <div style="font-size:10px;color:var(--muted)">${t.weak||'—'}</div>
+      <div style="font-size:10px;color:var(--muted);font-family:'JetBrains Mono',monospace">${t.date}</div>
+    </div>`;}).join('');
+}
+
+function saveNote(key,btn){
+  const val=document.getElementById('note-'+key).value;
+  const n=JSON.parse(localStorage.getItem('tnpsc_notes')||'{}');
+  n[key]=val; localStorage.setItem('tnpsc_notes',JSON.stringify(n));
+  btn.textContent='Saved ✓'; setTimeout(()=>btn.textContent='Save',1500);
+}
+function loadNotes(){
+  const n=JSON.parse(localStorage.getItem('tnpsc_notes')||'{}');
+  ['today','tnhistory','polity','ca','answers','doubts'].forEach(k=>{const e=document.getElementById('note-'+k);if(e&&n[k])e.value=n[k];});
+}
+
+// INIT
+document.getElementById('today-date').textContent=new Date().toLocaleDateString('en-IN',{weekday:'long',year:'numeric',month:'long',day:'numeric'});
+Object.keys(C).forEach(wid=>renderRows(wid));
+updateAll(); buildStreak(); loadNotes();
+renderDailyChecklist();
+
+// ═══ RESOURCE FILTER ═══
+function filterRes(cat, tabEl){
+  document.querySelectorAll('#panel-resources .tab').forEach(t=>t.classList.remove('active'));
+  if(tabEl) tabEl.classList.add('active');
+  document.querySelectorAll('#panel-resources .res-section').forEach(sec=>{
+    if(cat==='all'){sec.classList.remove('res-cat-hidden');}
+    else{sec.classList.toggle('res-cat-hidden',!sec.classList.contains('res-cat-'+cat));}
+  });
+}
+
+// ═══ PYQ TABLE DATA ═══
+const PYQ_DATA = [
+  {year:'2024',stage:'Prelims',link:'https://tnpsc.gov.in/English/previous-questions.html',topics:'Chandrayaan-3, TN Welfare Schemes 2024, NEP 2020, G20 India Presidency, Digital India',diff:'Medium-Hard',dc:'var(--warn)'},
+  {year:'2023',stage:'Prelims + Mains',link:'https://winmeen.com/tnpsc-group-1-previous-year-question-papers/',topics:'Sangam Age, 73rd/74th Amendment, Climate COP27, RBI Policy, ISRO Missions',diff:'Medium',dc:'var(--green)'},
+  {year:'2022',stage:'Prelims + Mains',link:'https://testbook.com/tnpsc-group-1/previous-year-papers',topics:'COVID-19 Policy, TN Budget, Dravidian Movement, Fundamental Rights, Cauvery Issue',diff:'Medium',dc:'var(--green)'},
+  {year:'2021',stage:'Prelims + Mains',link:'https://winmeen.com/tnpsc-group-1-previous-year-question-papers/',topics:'TN Social Reformers, Article 370, GST Council, India-China Relations, Vaccination Drive',diff:'Medium',dc:'var(--green)'},
+  {year:'2019',stage:'Prelims + Mains',link:'https://winmeen.com/tnpsc-group-1-previous-year-question-papers/',topics:'Chola Empire, Constitutional Bodies, Space Tech ISRO, TN Districts, Economic Survey',diff:'Medium',dc:'var(--green)'},
+  {year:'2018',stage:'Prelims',link:'https://winmeen.com/tnpsc-group-1-previous-year-question-papers/',topics:'Pallava Architecture, Panchayati Raj, Western Ghats Biodiversity, RBI, Swachh Bharat',diff:'Medium',dc:'var(--green)'},
+  {year:'2017',stage:'Prelims + Mains',link:'https://tnpsc.gov.in/english/answerkeys.aspx',topics:'VOC, TN Culture, Climate Change, NITI Aayog, Indian Economy Reforms, Biodiversity',diff:'Easy-Medium',dc:'var(--teal)'},
+  {year:'2016',stage:'Prelims',link:'https://winmeen.com/tnpsc-group-1-previous-year-question-papers/',topics:'Mughal Empire, 73rd Amendment, TN Rivers, Five Year Plans, Environment Acts',diff:'Easy-Medium',dc:'var(--teal)'},
+  {year:'2014',stage:'Prelims',link:'https://winmeen.com/tnpsc-group-1-previous-year-question-papers/',topics:'Modern Indian History, Gandhi Movement, TN Geography, Basic Science, Aptitude',diff:'Easy',dc:'var(--blue)'},
+  {year:'2013',stage:'Prelims',link:'https://winmeen.com/tnpsc-group-1-previous-year-question-papers/',topics:'Freedom Struggle, Chola Dynasty, Indian Polity Basics, Human Body, Indian Economy',diff:'Easy',dc:'var(--blue)'},
+];
+
+function renderPYQTable(){
+  const tbody=document.getElementById('pyq-table-body'); if(!tbody)return;
+  tbody.innerHTML=PYQ_DATA.map(p=>`
+    <div class="pyq-row">
+      <div style="font-weight:800;color:var(--gold);font-family:'JetBrains Mono',monospace">${p.year}</div>
+      <div><span style="background:rgba(139,92,246,.15);color:#a78bfa;padding:2px 8px;border-radius:4px;font-size:9px;font-weight:700">${p.stage}</span></div>
+      <div><a href="${p.link}" target="_blank" class="res-link" style="width:fit-content">📥 Download Papers</a></div>
+      <div style="font-size:10px;color:var(--muted);line-height:1.6">${p.topics}</div>
+      <div><span style="font-size:10px;font-weight:700;color:${p.dc}">${p.diff}</span></div>
+    </div>`).join('');
+}
+
+// ═══ EXPECTED QUESTIONS DATA ═══
+const EQ_DATA = {
+  'eq-history':[
+    {prob:'🔴 90%',pc:'var(--red)',q:'Which Sangam literary work is associated with love poetry? / Name the 5 major Sangam academies (Muvendhar)',hint:'Sangam works appear in EVERY Group 1 exam. Akananuru (love), Purananuru (war), Narrinai, Kalittokai — know all 18 major works'},
+    {prob:'🔴 88%',pc:'var(--red)',q:'Periyar E.V. Ramasamy — year of Self-Respect Movement founding, key contributions, Justice Party connection',hint:'Social reformers of TN are asked every exam. Periyar, Rajaji, Anna, Ambedkar connection to TN — all are high priority'},
+    {prob:'🔴 85%',pc:'var(--red)',q:'Chola Empire — Brihadeeswara Temple (UNESCO), Rajendra Chola naval expedition to Southeast Asia, land revenue system (Ur, Nadu)',hint:'Chola questions appear in 8/8 previous papers analyzed. Know Rajaraja I and Rajendra I deeply'},
+    {prob:'🔴 83%',pc:'var(--red)',q:'V.O. Chidambaram Pillai (VOC) — Swadeshi Steam Navigation Company, Coral Mill Strike, connection with Tilak',hint:'TN freedom fighters always tested. VOC, Subramania Siva, Bharathiar, Tirupur Kumaran — know all 4 deeply'},
+    {prob:'🟡 78%',pc:'var(--warn)',q:'Pallava Dynasty — Mahabalipuram rock-cut temples, Narasimhavarman I, contribution to Dravidian temple architecture',hint:'Pallava architecture questions come every 2 years. Rathas (5 Pandava Rathas), Shore Temple, Mandapas — know details'},
+    {prob:'🟡 75%',pc:'var(--warn)',q:'1857 Revolt — role of Vellore Mutiny 1806 (Tamil Nadu connection), Rani Lakshmibai, Mangal Pandey, aftermath',hint:'1857 and Vellore Mutiny often combined in TN exam to test TN connection to national events'},
+    {prob:'🟡 72%',pc:'var(--warn)',q:'Non-Cooperation Movement 1920 — TN participation, Gandhi\'s visit to TN, role of Rajaji (C. Rajagopalachari)',hint:'Rajaji is extremely important — Chief Minister of TN, Governor-General of India, Swatantra Party — multi-topic'},
+    {prob:'🟢 65%',pc:'var(--green)',q:'Mauryan Empire — Ashoka\'s Rock Edicts (which ones found in South India?), Arthashastra, Kautilya\'s administrative model',hint:'Ashoka\'s edicts in South India (Maski, Brahmagiri) — specific TN/South India angle makes this more likely'},
+  ],
+  'eq-polity':[
+    {prob:'🔴 92%',pc:'var(--red)',q:'Preamble of Indian Constitution — meaning of each word (Sovereign, Socialist, Secular, Democratic, Republic), 42nd Amendment changes',hint:'Preamble questions appear in EVERY exam. "We the People" — Constituent Assembly not Parliament. Added by 42nd Amendment: Socialist, Secular'},
+    {prob:'🔴 88%',pc:'var(--red)',q:'Article 356 — President\'s Rule. How many times imposed in TN? Governor\'s role vs CM\'s role in TN — who has more power?',hint:'TN-specific angle makes this likely. Sarkaria Commission recommendations on Article 356 misuse also important'},
+    {prob:'🔴 85%',pc:'var(--red)',q:'73rd Constitutional Amendment — Panchayati Raj, 3-tier system, women reservation (1/3), Schedule 11 (29 subjects)',hint:'This appears every 2 years. Tamil Nadu Panchayati Raj Act, urban local bodies (74th Amendment) — both important'},
+    {prob:'🟡 82%',pc:'var(--warn)',q:'Writs — difference between Habeas Corpus, Mandamus, Certiorari, Prohibition, Quo Warranto. Which court can issue which?',hint:'Writ questions appear regularly. Supreme Court (Art 32) can issue all 5. High Court (Art 226) can issue additional writs'},
+    {prob:'🟡 80%',pc:'var(--warn)',q:'Rajya Sabha — permanent body (cannot be dissolved), 1/3 members retire every 2 years, how elected, reserved seats, money bill process',hint:'Difference between Lok Sabha and Rajya Sabha powers — especially Money Bill process. Rajya Sabha has no power on Money Bills'},
+    {prob:'🟡 75%',pc:'var(--warn)',q:'Anti-Defection Law (52nd Amendment) — Schedule 10, when does it apply, role of Speaker, Supreme Court judgment on floor test',hint:'Relevant given TN political dynamics. Disqualification criteria, exceptions (merger, split rules) — tested frequently'},
+    {prob:'🟢 70%',pc:'var(--green)',q:'National Commission for Backward Classes — constitutional status (102nd Amendment), composition, functions, OBC sub-categorization',hint:'OBC reservation is politically relevant in TN. Recent 102nd Amendment giving constitutional status — very current topic'},
+  ],
+  'eq-geo':[
+    {prob:'🔴 90%',pc:'var(--red)',q:'Cauvery River — source (Talakaveri, Kodagu), tributaries (Kabini, Bhavani, Arkavathi, Amaravathi), Mettur Dam, states involved in dispute',hint:'Cauvery appears in EVERY Group 1 exam given TN-Karnataka water dispute. Know every detail — km length, dams, tributaries, delta'},
+    {prob:'🔴 87%',pc:'var(--red)',q:'Tamil Nadu Districts — 38 districts, recently bifurcated districts (Tenkasi from Tirunelveli 2019, Kallakurichi from Villupuram), geographic location of districts',hint:'New districts are always tested. Chengalpattu, Villupuram area districts, Ranipet — know all recent formations'},
+    {prob:'🔴 82%',pc:'var(--red)',q:'Western Ghats Biodiversity — UNESCO World Heritage (2012), Tiger Reserves in TN (Mudumalai, Anamalai, Sathyamangalam, Kalakad-Mundanthurai), wildlife species',hint:'Sathyamangalam TR is important — connected to Elephant corridor, Veerappan connection for context'},
+    {prob:'🟡 78%',pc:'var(--warn)',q:'Northeast Monsoon — why NE monsoon is more important for Tamil Nadu than SW monsoon, Oct–Dec rainfall pattern, districts receiving maximum rainfall',hint:'Unlike rest of India (SW monsoon), TN gets more rainfall in NE monsoon (Oct–Dec). Very TN-specific question'},
+    {prob:'🟡 75%',pc:'var(--warn)',q:'Soil types in Tamil Nadu — Red soil (most of TN), Alluvial soil (river deltas), Black soil (Coimbatore), Laterite soil (Nilgiris area)',hint:'Crop-soil pairing questions: Black soil → cotton, Red soil → groundnut/millets, Alluvial → rice in Kaveri delta'},
+    {prob:'🟡 72%',pc:'var(--warn)',q:'Chennai — first planned city? Port (one of largest artificial ports), Ennore Port (Kamarajar Port), Bay of Bengal, Coromandel Coast',hint:'Chennai geography — its position on Coromandel coast, artificial harbour (natural harbour limitations), cyclone vulnerability'},
+    {prob:'🟢 68%',pc:'var(--green)',q:'Point Calimere (Kodikkarai) Wildlife Sanctuary — flamingos, migratory birds, location in Nagapattinam district, Ramsar site',hint:'Ramsar wetlands in TN are important: Point Calimere, Vedanthangal (oldest bird sanctuary in Asia). Both likely to be tested'},
+  ],
+  'eq-economy':[
+    {prob:'🔴 90%',pc:'var(--red)',q:'NITI Aayog vs Planning Commission — year abolished (2014), NITI Aayog functions, Governing Council, PM as Chairperson, Atal Innovation Mission',hint:'Planning Commission dissolved Jan 1, 2015. NITI = National Institution for Transforming India. No allocation powers unlike PC'},
+    {prob:'🔴 87%',pc:'var(--red)',q:'GST — Goods and Services Tax, 101st Constitutional Amendment, GST Council composition, 4 slabs (5%, 12%, 18%, 28%), IGST/CGST/SGST',hint:'GST appears in every recent exam. Dual structure (Centre + State), Article 246A, GST Council — Finance Ministers of all states'},
+    {prob:'🔴 83%',pc:'var(--red)',q:'RBI — Repo rate, Reverse Repo rate, CRR, SLR, Bank Rate — what each controls, Monetary Policy Committee (MPC) composition',hint:'RBI questions appear very frequently. Current repo rate changes are always tested. MPC — 6 members, 3 RBI + 3 Govt'},
+    {prob:'🟡 80%',pc:'var(--warn)',q:'MGNREGA — Mahatma Gandhi National Rural Employment Guarantee Act 2005, 100 days guarantee, wage rates, role in TN rural employment',hint:'MGNREGA is social security scheme — high Mains importance. TN has high enrollment. Link to Sonia Gandhi\'s contribution'},
+    {prob:'🟡 77%',pc:'var(--warn)',q:'Make in India vs PM Gati Shakti vs Production-Linked Incentive (PLI) — what each scheme does, sectors covered, TN beneficiary industries',hint:'Recent economic schemes are always tested. PLI scheme covers 13 sectors including textiles (important for TN — Tirupur)'},
+    {prob:'🟡 73%',pc:'var(--warn)',q:'TN Economy — automobile capital (Sriperumbudur-Chennai corridor), IT exports rank (2nd after Karnataka), knitwear (Tirupur), leather (Chennai)',hint:'TN economy facts appear in every exam. Know rankings: TN GSDP rank, export rank, manufacturing contribution, key industry locations'},
+    {prob:'🟢 68%',pc:'var(--green)',q:'Green Revolution — who introduced, which crops, which states, Norman Borlaug, MS Swaminathan (Father of Green Revolution in India)',hint:'MS Swaminathan passed away Sept 2023 — very likely to be tested. His role in Green Revolution, varieties developed (IR-8 rice)'},
+  ],
+  'eq-science':[
+    {prob:'🔴 91%',pc:'var(--red)',q:'ISRO Missions — Chandrayaan-3 (2023 success — Vikram lander, Pragyan rover, South Pole landing), Aditya-L1 (Solar mission), Gaganyaan (human spaceflight)',hint:'Chandrayaan-3 is THE most likely space question for 2025. India first to land near lunar South Pole. Vikram lander + Pragyan rover = critical facts'},
+    {prob:'🔴 87%',pc:'var(--red)',q:'INS Vikrant — India\'s first indigenous aircraft carrier, commissioned Aug 2022, built in Kochi shipyard (CSL), displaced tonnage, significance',hint:'Indigenous defense capability — INS Vikrant commissioned by PM Modi. "Vikrant" means courageous. Always tested after major defense launches'},
+    {prob:'🔴 83%',pc:'var(--red)',q:'Photosynthesis — light reaction (thylakoid), dark reaction/Calvin cycle (stroma), inputs (CO2, H2O, sunlight), outputs (O2, glucose), chlorophyll role',hint:'Biology basics appear in every paper — especially from Samacheer 6th–10th. Photosynthesis formula 6CO2+6H2O→C6H12O6+6O2'},
+    {prob:'🟡 80%',pc:'var(--warn)',q:'Vaccines and Immunity — Covaxin (Bharat Biotech), active vs passive immunity, herd immunity concept, India\'s vaccine production capacity',hint:'Post-COVID, vaccine questions are likely. Covaxin — inactivated virus vaccine. India as "Pharmacy of the World" — good context for answer'},
+    {prob:'🟡 77%',pc:'var(--warn)',q:'DRDO achievements — BrahMos missile (India-Russia), Agni-5 (ICBM), Tejas fighter jet, Kaveri engine, ASAT test Mission Shakti (2019)',hint:'Defense technology tested every 2 years. BrahMos = supersonic cruise missile. ASAT = Anti-Satellite technology test — important for sovereignty'},
+    {prob:'🟡 73%',pc:'var(--warn)',q:'Newton\'s Laws — 1st (inertia), 2nd (F=ma), 3rd (action-reaction). Application questions: why do we lean forward when bus brakes (1st law)?',hint:'Physics application questions from Samacheer — Newton\'s laws applied to everyday situations. Very TNPSC-style question format'},
+    {prob:'🟡 70%',pc:'var(--warn)',q:'Ozone layer — where located (stratosphere, 15–35 km), CFCs cause depletion, Montreal Protocol (1987), good ozone vs bad ozone (tropospheric)',hint:'Environment + Science overlap question. Montreal Protocol — successful example of international cooperation on environment'},
+    {prob:'🟢 67%',pc:'var(--green)',q:'Blood types — ABO system, Rh factor, universal donor (O negative), universal recipient (AB positive), blood transfusion rules',hint:'Human biology from Samacheer — blood types appear every alternate exam. Karl Landsteiner discovered ABO system (Nobel 1930)'},
+  ],
+  'eq-ca':[
+    {prob:'🔴 95%',pc:'var(--red)',q:'Chandrayaan-3 Mission (2023) — Vikram lander soft landing on lunar South Pole (Aug 23, 2023), Pragyan rover, ISRO Chairman S. Somanath',hint:'THIS IS THE MOST CERTAIN QUESTION FOR 2025. India became 4th country to land on Moon, 1st near South Pole. Every detail matters'},
+    {prob:'🔴 92%',pc:'var(--red)',q:'India G20 Presidency 2023 — New Delhi Declaration, African Union addition, key decisions, "Vasudhaiva Kutumbakam" theme, Voice of Global South',hint:'India\'s G20 presidency was historic. African Union becoming permanent member was major outcome. PM Modi chaired summit'},
+    {prob:'🔴 88%',pc:'var(--red)',q:'Tamil Nadu Government Schemes 2024 — Kalaignar Magalir Urimai Thogai (₹1000/month), CM\'s Breakfast Scheme, Naan Mudhalvan, Green TN Mission',hint:'TN government\'s own schemes are always tested. Kalaignar Magalir Urimai Thogai = women\'s rights allowance — beneficiary numbers'},
+    {prob:'🔴 85%',pc:'var(--red)',q:'Aditya-L1 (Solar Mission 2023) — L1 Lagrange point, objectives (solar corona study, space weather), payload instruments, ISRO achievement',hint:'After Chandrayaan-3, Aditya-L1 launched Sept 2023. First Indian solar mission. Positioned at L1 point — excellent vantage for studying Sun'},
+    {prob:'🟡 82%',pc:'var(--warn)',q:'MS Swaminathan (died Sept 28, 2023) — Father of Green Revolution in India, M.S. Swaminathan Research Foundation (Chennai), Bharat Ratna 2024',hint:'MS Swaminathan awarded Bharat Ratna posthumously in 2024. Founded MSSRF in Chennai — TN connection. Green Revolution + food security'},
+    {prob:'🟡 80%',pc:'var(--warn)',q:'Bharat Ratna 2024 — LK Advani, Karpoori Thakur (posthumous), MS Swaminathan (posthumous), PV Narasimha Rao (posthumous), Chaudhary Charan Singh',hint:'5 Bharat Ratna awards in 2024 — largest batch in one year. Very high probability for appointment/award type question'},
+    {prob:'🟡 77%',pc:'var(--warn)',q:'India-Maldives Relations 2024 — President Muizzu\'s "India out" campaign, Indian military personnel withdrawal, impact on India\'s neighbourhood policy',hint:'India-Maldives row was major foreign policy event 2023–24. Strategic importance of Maldives for Indian Ocean security'},
+    {prob:'🟡 75%',pc:'var(--warn)',q:'Paris Olympics 2024 — India\'s medal count, Neeraj Chopra (silver in javelin), TN athletes who won medals, India\'s performance comparison to Tokyo',hint:'Olympics always tested. Neeraj Chopra gold in Tokyo 2020, silver in Paris 2024. Vinesh Phogat controversy (disqualified from final)'},
+    {prob:'🟡 72%',pc:'var(--warn)',q:'Union Budget 2024–25 highlights — key allocations, new schemes, TN-specific allocations, infrastructure spending, revised fiscal deficit target',hint:'Union Budget comes every year — key numbers always tested. Focus on sectors getting maximum allocation and new schemes announced'},
+    {prob:'🟢 68%',pc:'var(--green)',q:'Kaveri Water Dispute — Supreme Court 2018 order, Karnataka vs Tamil Nadu quota, CWMA (Cauvery Water Management Authority), 2024 updates',hint:'Given TN\'s concern, Cauvery dispute is always relevant. Current status of CWMA implementation + any 2024 court orders'},
+  ],
+};
+
+let currentEQTab='eq-history';
+function switchEQTab(tabEl, tabId){
+  document.querySelectorAll('#eq-tabs .tab').forEach(t=>t.classList.remove('active'));
+  if(tabEl) tabEl.classList.add('active');
+  currentEQTab=tabId; renderEQContent();
+}
+
+function renderEQContent(){
+  const ct=document.getElementById('eq-content'); if(!ct)return;
+  const items=EQ_DATA[currentEQTab]||[];
+  ct.innerHTML=`<div class="eq-box">${items.map(it=>`
+    <div class="eq-item">
+      <div class="eq-prob" style="background:rgba(255,100,100,.1);color:${it.pc}">${it.prob}</div>
+      <div><div class="eq-q">${it.q}</div><div class="eq-hint">💡 ${it.hint}</div></div>
+    </div>`).join('')}</div>`;
+}
+
+// ═══ FREQUENCY CHART ═══
+const FREQ_DATA=[
+  {topic:'TN History + Culture',pct:22,color:'#e5c76b'},
+  {topic:'Indian Polity',pct:16,color:'#60a5e8'},
+  {topic:'Current Affairs (TN + India)',pct:15,color:'#f87171'},
+  {topic:'General Science (Bio+Phy+Chem)',pct:13,color:'#2dd4bf'},
+  {topic:'Indian + TN Geography',pct:11,color:'#3dbd70'},
+  {topic:'Indian Economy',pct:10,color:'#e8732a'},
+  {topic:'Modern Indian History',pct:9,color:'#a78bfa'},
+  {topic:'Aptitude + Mental Ability',pct:4,color:'#c4b5fd'},
+];
+function renderFreqChart(){
+  const ct=document.getElementById('freq-chart'); if(!ct)return;
+  ct.innerHTML=FREQ_DATA.map(d=>`
+    <div class="freq-row">
+      <div style="font-size:11px;font-weight:600">${d.topic}</div>
+      <div class="freq-bar-bg"><div class="freq-bar" style="width:${d.pct*4}%;background:${d.color}"></div></div>
+      <div style="font-family:'JetBrains Mono',monospace;font-size:11px;font-weight:800;color:${d.color};text-align:right">~${d.pct}%</div>
+    </div>`).join('');
+}
+
+// Init new sections when resources panel opens
+// Store the original showPanel function
+const originalShowPanel = showPanel;
+
+// Override showPanel to add resources panel functionality
+showPanel = function(name, el) {
+  // Call the original function
+  originalShowPanel(name, el);
+  
+  // Additional handling for resources panel
+  if (name === 'resources') {
+    setTimeout(() => {
+      renderPYQTable();
+      renderEQContent();
+      renderFreqChart();
+    }, 50);
+  }
+};
+renderSubjectWeekly();
+</script>
+
+</body>
+</html>
